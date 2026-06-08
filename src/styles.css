@@ -142,3 +142,79 @@
     color: var(--color-foreground);
   }
 }
+
+/* ========== Tailor Resume design tokens ========== */
+@theme {
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-300: #93c5fd;
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+  --color-brand-800: #1e40af;
+  --color-brand-900: #1e3a8a;
+  --color-brand-950: #172554;
+
+  --shadow-card: 0 4px 24px -4px rgba(37, 99, 235, 0.12), 0 2px 8px -2px rgba(37, 99, 235, 0.08);
+  --shadow-glow: 0 0 40px -8px rgba(59, 130, 246, 0.45);
+
+  --background-image-page-gradient: linear-gradient(160deg, #eff6ff 0%, #dbeafe 35%, #f0f9ff 70%, #e0f2fe 100%);
+  --background-image-header-gradient: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #3b82f6 100%);
+}
+
+@layer components {
+  .tab-btn {
+    @apply px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200;
+  }
+  .tab-btn-active {
+    @apply bg-white text-brand-700 shadow-card ring-2 ring-brand-400/40;
+  }
+  .tab-btn-inactive {
+    @apply text-brand-700/70 hover:bg-white/60 hover:text-brand-800;
+  }
+  .tab-btn-done {
+    @apply text-brand-600 bg-brand-50/80;
+  }
+  .card {
+    @apply bg-white/90 backdrop-blur-sm rounded-2xl border border-brand-100 shadow-card p-6 md:p-8;
+  }
+  .card-accent {
+    @apply border-l-4 border-l-brand-500;
+  }
+  .input-field {
+    @apply w-full rounded-xl border border-brand-200 bg-white px-4 py-2.5 text-sm text-slate-800
+      placeholder:text-slate-400
+      focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-brand-400
+      transition-shadow;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-brand-600 to-brand-500
+      px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-brand-500/30
+      hover:from-brand-700 hover:to-brand-600 hover:shadow-lg hover:shadow-brand-500/40
+      disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none
+      transition-all duration-200;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-xl border border-brand-200 bg-white
+      px-5 py-2.5 text-sm font-semibold text-brand-700
+      hover:bg-brand-50 hover:border-brand-300 transition-colors;
+  }
+  .score-ring {
+    @apply flex h-20 w-20 items-center justify-center rounded-full border-4 text-xl font-bold;
+  }
+  .step-pill {
+    @apply inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold
+      bg-brand-600 text-white shadow-sm;
+  }
+  .tip-box {
+    @apply rounded-xl bg-gradient-to-br from-brand-50 to-blue-50 border border-brand-100 p-4;
+  }
+  .latex-preview {
+    @apply text-slate-900;
+  }
+  .latex-preview .body {
+    max-width: none;
+  }
+}
