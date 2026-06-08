@@ -1,11 +1,12 @@
 "use client";
 
 import { useCallback } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { useAppStore, canGenerate, getProfileContent } from "@/lib/tailor/store";
+import { generateResume } from "@/lib/tailor/generate-resume.functions";
 import { ScoreBadge } from "./ScoreBadge";
 import { TabActions } from "./TabActions";
 import { ResumePdfPreview } from "./ResumePdfPreview";
-import type { GenerateResult } from "@/lib/tailor/types";
 
 interface ResumeTabProps {
   onBack: () => void;
@@ -23,6 +24,8 @@ export function ResumeTab({ onBack }: ResumeTabProps) {
     setError,
   } = useAppStore();
 
+  const generateFn = useServerFn(generateResume);
+
   const handleGenerate = useCallback(async () => {
     if (!canGenerate(profile, jd)) return;
 
@@ -30,28 +33,20 @@ export function ResumeTab({ onBack }: ResumeTabProps) {
     setError(null);
 
     try {
-      const res = await fetch("/api/generate-resume", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      const data = await generateFn({
+        data: {
           profileMode: profile.mode,
           profileContent: getProfileContent(profile),
           jobDescription: jd.jobDescription,
-        }),
+        },
       });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error ?? "Generation failed");
-      }
-
-      setResult(data as GenerateResult);
+      setResult(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
       setIsGenerating(false);
     }
-  }, [profile, jd, setResult, setIsGenerating, setError]);
+  }, [profile, jd, generateFn, setResult, setIsGenerating, setError]);
 
   const ready = canGenerate(profile, jd);
 
