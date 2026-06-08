@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppStore, canProceedFromProfile } from "@/lib/store";
+import { useAppStore, canProceedFromProfile } from "@/lib/tailor/store";
 import { TabActions } from "./TabActions";
 
 interface ProfileTabProps {

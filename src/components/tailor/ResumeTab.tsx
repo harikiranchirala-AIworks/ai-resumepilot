@@ -1,11 +1,11 @@
 "use client";
 
 import { useCallback } from "react";
-import { useAppStore, canGenerate, getProfileContent } from "@/lib/store";
+import { useAppStore, canGenerate, getProfileContent } from "@/lib/tailor/store";
 import { ScoreBadge } from "./ScoreBadge";
 import { TabActions } from "./TabActions";
 import { ResumePdfPreview } from "./ResumePdfPreview";
-import type { GenerateResult } from "@/lib/types";
+import type { GenerateResult } from "@/lib/tailor/types";
 
 interface ResumeTabProps {
   onBack: () => void;

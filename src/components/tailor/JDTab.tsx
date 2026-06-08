@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppStore, canProceedFromJD } from "@/lib/store";
+import { useAppStore, canProceedFromJD } from "@/lib/tailor/store";
 import { TabActions } from "./TabActions";
 
 interface JDTabProps {
