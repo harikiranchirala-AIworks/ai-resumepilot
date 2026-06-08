@@ -1,9 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
-type PreviewMode = "pdf" | "formatted" | "source";
-type PdfSource = "server" | "client" | null;
+type PreviewMode = "formatted" | "source";
 
 interface ResumePdfPreviewProps {
   latex: string;
@@ -161,110 +160,8 @@ export function ResumePdfPreview({
   summary,
   highlights,
 }: ResumePdfPreviewProps) {
-  const [mode, setMode] = useState<PreviewMode>("pdf");
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
-  const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
-  const [pdfSource, setPdfSource] = useState<PdfSource>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [htmlReady, setHtmlReady] = useState(false);
-
-  const htmlHostRef = useRef<HTMLDivElement>(null);
-  const printHostRef = useRef<HTMLDivElement>(null);
-
-  const renderLatexHtml = useCallback(async (target: HTMLElement) => {
-    target.innerHTML = renderResumeHtml(latex);
-  }, [latex]);
-
-
-  const buildClientPdf = useCallback(async () => {
-    if (!printHostRef.current) return null;
-
-    await renderLatexHtml(printHostRef.current);
-
-    const html2pdf = (await import("html2pdf.js")).default as unknown as () => {
-      set: (opts: Record<string, unknown>) => {
-        from: (el: HTMLElement) => {
-          outputPdf: (type: "blob") => Promise<Blob>;
-        };
-      };
-    };
-    const blob = await html2pdf()
-      .set({
-        margin: [0.45, 0.45, 0.45, 0.45],
-        filename: "tailored-resume.pdf",
-        image: { type: "jpeg", quality: 0.95 },
-        html2canvas: { scale: 2, useCORS: true, letterRendering: true },
-        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-        pagebreak: { mode: ["avoid-all", "css", "legacy"] },
-      })
-      .from(printHostRef.current)
-      .outputPdf("blob");
-
-    return blob;
-  }, [renderLatexHtml]);
-
-  useEffect(() => {
-    let revoked: string | null = null;
-    let cancelled = false;
-
-    async function buildPdf() {
-      setLoading(true);
-      setError(null);
-      setPdfUrl(null);
-      setPdfBlob(null);
-      setPdfSource(null);
-      setHtmlReady(false);
-
-      try {
-        const blob = await buildClientPdf();
-        if (cancelled || !blob) return;
-        const url = URL.createObjectURL(blob);
-        revoked = url;
-        setPdfBlob(blob);
-        setPdfUrl(url);
-        setPdfSource("client");
-      } catch (err) {
-        if (!cancelled) {
-          setError(
-            err instanceof Error ? err.message : "Could not build PDF preview"
-          );
-        }
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-
-    buildPdf();
-
-    return () => {
-      cancelled = true;
-      if (revoked) URL.revokeObjectURL(revoked);
-    };
-  }, [latex, buildClientPdf]);
-
-  useEffect(() => {
-    if (mode !== "formatted" || !htmlHostRef.current || htmlReady) return;
-
-    let cancelled = false;
-    renderLatexHtml(htmlHostRef.current)
-      .then(() => {
-        if (!cancelled) setHtmlReady(true);
-      })
-      .catch((err) => {
-        if (!cancelled) {
-          setError(err instanceof Error ? err.message : "Preview render failed");
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [mode, htmlReady, latex, renderLatexHtml]);
-
-  useEffect(() => {
-    setHtmlReady(false);
-  }, [latex]);
+  const [mode, setMode] = useState<PreviewMode>("formatted");
+  const formattedHtml = renderResumeHtml(latex);
 
   const tabClass = (active: boolean) =>
     `px-4 py-2 text-sm font-semibold rounded-lg transition-colors ${
@@ -288,15 +185,6 @@ export function ResumePdfPreview({
           )}
         </div>
         <div className="flex flex-wrap gap-2 shrink-0">
-          {pdfBlob && (
-            <button
-              type="button"
-              className="btn-primary text-xs"
-              onClick={() => downloadBlob(pdfBlob, "tailored-resume.pdf")}
-            >
-              Download PDF
-            </button>
-          )}
           <button
             type="button"
             className="btn-secondary text-xs"
@@ -310,9 +198,6 @@ export function ResumePdfPreview({
       </div>
 
       <div className="flex flex-wrap gap-2 p-1 bg-brand-50 rounded-xl border border-brand-100">
-        <button type="button" className={tabClass(mode === "pdf")} onClick={() => setMode("pdf")}>
-          PDF
-        </button>
         <button
           type="button"
           className={tabClass(mode === "formatted")}
@@ -325,38 +210,10 @@ export function ResumePdfPreview({
         </button>
       </div>
 
-      {pdfSource && mode === "pdf" && (
-        <p className="text-xs text-brand-600">
-          {pdfSource === "server"
-            ? "Rendered with pdflatex (print-quality)."
-            : "Rendered in-browser — install MiKTeX for print-quality PDF."}
-        </p>
-      )}
-
-      {mode === "pdf" && (
-        <div className="rounded-xl border border-brand-200 bg-slate-100 overflow-hidden min-h-[480px]">
-          {loading && (
-            <div className="flex items-center justify-center h-[520px] text-sm text-brand-700">
-              Building PDF preview…
-            </div>
-          )}
-          {!loading && error && (
-            <div className="p-6 text-sm text-rose-700 bg-rose-50">{error}</div>
-          )}
-          {!loading && pdfUrl && (
-            <iframe
-              title="Resume PDF preview"
-              src={pdfUrl}
-              className="w-full h-[min(80vh,720px)] bg-white"
-            />
-          )}
-        </div>
-      )}
-
       {mode === "formatted" && (
         <div
-          ref={htmlHostRef}
           className="latex-preview rounded-xl border border-brand-200 bg-white p-6 overflow-auto max-h-[min(80vh,720px)] shadow-inner"
+          dangerouslySetInnerHTML={{ __html: formattedHtml }}
         />
       )}
 
@@ -365,13 +222,6 @@ export function ResumePdfPreview({
           {latex}
         </pre>
       )}
-
-      {/* Off-screen host for html2pdf (must be in DOM) */}
-      <div
-        ref={printHostRef}
-        className="latex-print-host fixed left-[-9999px] top-0 w-[210mm] bg-white p-8 text-black text-sm leading-relaxed"
-        aria-hidden
-      />
     </div>
   );
 }
