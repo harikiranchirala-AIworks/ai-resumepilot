@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Loader2, ExternalLink, Briefcase, MapPin, Sparkles } from "lucide-react";
+import { Loader2, ExternalLink, Briefcase, MapPin, Sparkles, FileDown } from "lucide-react";
 import { matchJobs, type MatchJobsResult } from "@/lib/career/match-jobs.functions";
+import { fetchJobDescription } from "@/lib/career/fetch-jd.functions";
 import { useAppStore, getProfileContent } from "@/lib/tailor/store";
 
 interface Props {
