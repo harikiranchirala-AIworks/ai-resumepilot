@@ -113,6 +113,7 @@ Pick exactly 5 picks (or fewer if <5 jobs available). Use ONLY ids from the list
         location: job.location,
         url: job.url,
         salary: job.salary,
+        description: job.description,
         fitmentPercent: Math.max(0, Math.min(100, Math.round(p.fitmentPercent))),
         whyFit: p.whyFit,
         gaps: p.gaps,
