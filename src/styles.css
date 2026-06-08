@@ -214,7 +214,44 @@
   .latex-preview {
     @apply text-slate-900;
   }
-  .latex-preview .body {
-    max-width: none;
+  .latex-preview .resume-document,
+  .latex-print-host .resume-document {
+    @apply mx-auto max-w-[760px] bg-white text-slate-950;
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.45;
+  }
+  .latex-preview .resume-document {
+    @apply p-8;
+  }
+  .latex-print-host .resume-document {
+    @apply p-0;
+  }
+  .resume-document h2 {
+    @apply mt-5 mb-2 border-b border-slate-800 pb-1 text-base font-bold uppercase text-slate-950;
+    letter-spacing: 0;
+  }
+  .resume-document p {
+    @apply my-1 text-sm text-slate-900;
+  }
+  .resume-document ul {
+    @apply my-2 list-disc space-y-1 pl-5 text-sm text-slate-900;
+  }
+  .resume-document li {
+    @apply pl-1;
+  }
+  .resume-document strong {
+    @apply font-bold text-slate-950;
+  }
+  .resume-document em {
+    @apply italic;
+  }
+  .resume-document a {
+    @apply text-brand-700 underline underline-offset-2;
+  }
+  .resume-center {
+    @apply mb-4 text-center;
+  }
+  .resume-spacer {
+    @apply inline-block w-6;
   }
 }
