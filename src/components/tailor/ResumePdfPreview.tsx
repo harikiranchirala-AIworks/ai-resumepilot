@@ -20,6 +20,142 @@ function downloadBlob(blob: Blob, filename: string) {
   URL.revokeObjectURL(url);
 }
 
+function escapeHtml(text: string): string {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function extractDocumentBody(source: string): string {
+  const match = source.match(/\\begin\{document\}([\s\S]*?)\\end\{document\}/);
+  return (match ? match[1] : source).trim();
+}
+
+function cleanLatexText(text: string): string {
+  return text
+    .replace(/%.*$/gm, "")
+    .replace(/\\(?:LARGE|Large|large|small|footnotesize|normalsize)\s*/g, "")
+    .replace(/\\(?:textbf|textit|emph)\{([^{}]*)\}/g, "$1")
+    .replace(/\\href\{([^{}]*)\}\{([^{}]*)\}/g, "$2 ($1)")
+    .replace(/\\url\{([^{}]*)\}/g, "$1")
+    .replace(/\\[a-zA-Z]+\*?(?:\[[^\]]*\])?(?:\{([^{}]*)\})?/g, "$1")
+    .replace(/\\([&%$#_{}])/g, "$1")
+    .replace(/\\textbackslash\{\}/g, "\\")
+    .replace(/\\textasciitilde\{\}/g, "~")
+    .replace(/\\textasciicircum\{\}/g, "^")
+    .replace(/[{}]/g, "")
+    .replace(/--/g, "–")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function formatInlineLatex(text: string): string {
+  const placeholders: string[] = [];
+  const stash = (html: string) => {
+    placeholders.push(html);
+    return `@@HTML_${placeholders.length - 1}@@`;
+  };
+
+  const withPlaceholders = text
+    .replace(/\\href\{([^{}]*)\}\{([^{}]*)\}/g, (_, url: string, label: string) =>
+      stash(
+        `<a href="${escapeHtml(cleanLatexText(url))}" target="_blank" rel="noreferrer">${escapeHtml(cleanLatexText(label))}</a>`,
+      ),
+    )
+    .replace(/\\url\{([^{}]*)\}/g, (_, url: string) => {
+      const cleanUrl = cleanLatexText(url);
+      return stash(`<a href="${escapeHtml(cleanUrl)}" target="_blank" rel="noreferrer">${escapeHtml(cleanUrl)}</a>`);
+    })
+    .replace(/\\textbf\{([^{}]*)\}/g, (_, value: string) => stash(`<strong>${escapeHtml(cleanLatexText(value))}</strong>`))
+    .replace(/\\(?:textit|emph)\{([^{}]*)\}/g, (_, value: string) => stash(`<em>${escapeHtml(cleanLatexText(value))}</em>`))
+    .replace(/\\hfill/g, stash('<span class="resume-spacer"></span>'));
+
+  return escapeHtml(cleanLatexText(withPlaceholders)).replace(/@@HTML_(\d+)@@/g, (_, index: string) => placeholders[Number(index)] ?? "");
+}
+
+function renderResumeHtml(source: string): string {
+  const body = extractDocumentBody(source)
+    .replace(/%.*$/gm, "")
+    .replace(/\\\\(?:\[[^\]]*\])?/g, "\n");
+  const lines = body.split("\n").map((line) => line.trim());
+  const html: string[] = ['<article class="resume-document">'];
+  let listOpen = false;
+  let centerOpen = false;
+
+  const closeList = () => {
+    if (listOpen) {
+      html.push("</ul>");
+      listOpen = false;
+    }
+  };
+  const closeCenter = () => {
+    if (centerOpen) {
+      html.push("</div>");
+      centerOpen = false;
+    }
+  };
+
+  for (const rawLine of lines) {
+    if (!rawLine) continue;
+    if (/^\\begin\{center\}/.test(rawLine)) {
+      closeList();
+      html.push('<div class="resume-center">');
+      centerOpen = true;
+      continue;
+    }
+    if (/^\\end\{center\}/.test(rawLine)) {
+      closeList();
+      closeCenter();
+      continue;
+    }
+    if (/^\\begin\{itemize\}/.test(rawLine)) {
+      closeCenter();
+      if (!listOpen) {
+        html.push("<ul>");
+        listOpen = true;
+      }
+      continue;
+    }
+    if (/^\\end\{itemize\}/.test(rawLine)) {
+      closeList();
+      continue;
+    }
+    if (/^\\(?:vspace|smallskip|medskip|bigskip)/.test(rawLine)) {
+      continue;
+    }
+
+    const section = rawLine.match(/^\\section\*?\{(.+)\}$/);
+    if (section) {
+      closeList();
+      closeCenter();
+      html.push(`<h2>${escapeHtml(cleanLatexText(section[1]))}</h2>`);
+      continue;
+    }
+
+    const item = rawLine.match(/^\\item\s+(.+)$/);
+    if (item) {
+      closeCenter();
+      if (!listOpen) {
+        html.push("<ul>");
+        listOpen = true;
+      }
+      html.push(`<li>${formatInlineLatex(item[1])}</li>`);
+      continue;
+    }
+
+    closeList();
+    html.push(`<p>${formatInlineLatex(rawLine)}</p>`);
+  }
+
+  closeList();
+  closeCenter();
+  html.push("</article>");
+  return html.join("");
+}
+
 export function ResumePdfPreview({
   latex,
   summary,
@@ -37,35 +173,7 @@ export function ResumePdfPreview({
   const printHostRef = useRef<HTMLDivElement>(null);
 
   const renderLatexHtml = useCallback(async (target: HTMLElement) => {
-    const latexjs = await import("latex.js");
-    const { parse, HtmlGenerator } = latexjs;
-
-    // latex.js only supports a small subset of LaTeX and chokes on our
-    // ATS preamble (titlesec, enumitem, hyperref, geometry...). Extract just
-    // the body between \begin{document}..\end{document} and wrap it in a
-    // minimal article shell that latex.js can actually parse.
-    const bodyMatch = latex.match(
-      /\\begin\{document\}([\s\S]*?)\\end\{document\}/
-    );
-    const body = bodyMatch ? bodyMatch[1] : latex;
-    const minimal = `\\documentclass{article}\n\\begin{document}\n${body}\n\\end{document}`;
-
-    const generator = new HtmlGenerator({ hyphenate: false });
-    parse(minimal, { generator });
-
-    target.innerHTML = "";
-    const fragment = generator.domFragment();
-    target.appendChild(fragment);
-
-    const headMarker = "data-latexjs-styles";
-    document.querySelectorAll(`[${headMarker}]`).forEach((n) => n.remove());
-
-    const assets = generator.stylesAndScripts("");
-    for (const node of Array.from(assets.childNodes)) {
-      const clone = node.cloneNode(true) as HTMLElement;
-      clone.setAttribute(headMarker, "true");
-      document.head.appendChild(clone);
-    }
+    target.innerHTML = renderResumeHtml(latex);
   }, [latex]);
 
 
