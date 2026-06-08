@@ -114,6 +114,9 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
         {error && (
           <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-800">{error}</div>
         )}
+        {pickNote && (
+          <div className="p-3 rounded-lg bg-brand-50 border border-brand-200 text-sm text-brand-800">{pickNote}</div>
+        )}
       </div>
 
       {result && (
