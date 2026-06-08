@@ -63,8 +63,14 @@ export function ResumePdfPreview({
 
     await renderLatexHtml(printHostRef.current);
 
-    const html2pdf = (await import("html2pdf.js")).default;
-    const blob = (await html2pdf()
+    const html2pdf = (await import("html2pdf.js")).default as unknown as () => {
+      set: (opts: Record<string, unknown>) => {
+        from: (el: HTMLElement) => {
+          outputPdf: (type: "blob") => Promise<Blob>;
+        };
+      };
+    };
+    const blob = await html2pdf()
       .set({
         margin: [0.45, 0.45, 0.45, 0.45],
         filename: "tailored-resume.pdf",
@@ -72,9 +78,9 @@ export function ResumePdfPreview({
         html2canvas: { scale: 2, useCORS: true, letterRendering: true },
         jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
         pagebreak: { mode: ["avoid-all", "css", "legacy"] },
-      } as Parameters<ReturnType<typeof html2pdf>["set"]>[0])
+      })
       .from(printHostRef.current)
-      .outputPdf("blob")) as Blob;
+      .outputPdf("blob");
 
     return blob;
   }, [renderLatexHtml]);
@@ -90,28 +96,6 @@ export function ResumePdfPreview({
       setPdfBlob(null);
       setPdfSource(null);
       setHtmlReady(false);
-
-      try {
-        const res = await fetch("/api/compile-pdf", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ latex }),
-        });
-
-        if (res.ok) {
-          const blob = await res.blob();
-          if (cancelled) return;
-          const url = URL.createObjectURL(blob);
-          revoked = url;
-          setPdfBlob(blob);
-          setPdfUrl(url);
-          setPdfSource("server");
-          setLoading(false);
-          return;
-        }
-      } catch {
-        /* fall through to client PDF */
-      }
 
       try {
         const blob = await buildClientPdf();
