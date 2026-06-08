@@ -101,24 +101,23 @@ Pick exactly 5 picks (or fewer if <5 jobs available). Use ONLY ids from the list
     const parsed = parseAgentJson<AIResponse>(text);
     const byId = new Map<string, AdzunaJob>(jobs.map((j) => [j.id, j]));
 
-    const ranked: RankedJob[] = (parsed.picks ?? [])
-      .map((p) => {
-        const job = byId.get(p.id);
-        if (!job) return null;
-        return {
-          id: job.id,
-          title: job.title,
-          company: job.company,
-          location: job.location,
-          url: job.url,
-          salary: job.salary,
-          fitmentPercent: Math.max(0, Math.min(100, Math.round(p.fitmentPercent))),
-          whyFit: p.whyFit,
-          gaps: p.gaps,
-        };
-      })
-      .filter((x): x is RankedJob => x !== null)
-      .slice(0, 5);
+    const ranked: RankedJob[] = [];
+    for (const p of parsed.picks ?? []) {
+      const job = byId.get(p.id);
+      if (!job) continue;
+      ranked.push({
+        id: job.id,
+        title: job.title,
+        company: job.company,
+        location: job.location,
+        url: job.url,
+        salary: job.salary,
+        fitmentPercent: Math.max(0, Math.min(100, Math.round(p.fitmentPercent))),
+        whyFit: p.whyFit,
+        gaps: p.gaps,
+      });
+      if (ranked.length >= 5) break;
+    }
 
     return {
       jobs: ranked,
