@@ -14,13 +14,16 @@ interface Props {
 
 export function AvailableJobsTab({ onBack, onNext }: Props) {
   const matchFn = useServerFn(matchJobs);
-  const { profile } = useAppStore();
+  const fetchJdFn = useServerFn(fetchJobDescription);
+  const { profile, setJobDescription } = useAppStore();
   const profileContent = getProfileContent(profile);
 
   const [keywords, setKeywords] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<MatchJobsResult | null>(null);
+  const [pickingId, setPickingId] = useState<string | null>(null);
+  const [pickNote, setPickNote] = useState<string | null>(null);
 
   const profileReady = profileContent.length >= 50;
 
