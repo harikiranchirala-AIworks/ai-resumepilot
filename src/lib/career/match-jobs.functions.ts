@@ -17,6 +17,7 @@ export interface RankedJob {
   location: string;
   url: string;
   salary?: string;
+  description: string;
   fitmentPercent: number;
   whyFit: string;
   gaps: string;
