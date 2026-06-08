@@ -4,6 +4,7 @@ import { TabNavigation, type TabId } from "@/components/tailor/TabNavigation";
 import { ProfileTab } from "@/components/tailor/ProfileTab";
 import { JDTab } from "@/components/tailor/JDTab";
 import { ResumeTab } from "@/components/tailor/ResumeTab";
+import { CareerMatchTab } from "@/components/tailor/CareerMatchTab";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -61,6 +62,9 @@ function Home() {
         )}
         {activeTab === "resume" && (
           <ResumeTab onBack={() => setActiveTab("jd")} />
+        )}
+        {activeTab === "career" && (
+          <CareerMatchTab onBack={() => setActiveTab("resume")} />
         )}
 
         <footer className="text-center text-xs text-brand-600/70 pt-4 pb-8">
