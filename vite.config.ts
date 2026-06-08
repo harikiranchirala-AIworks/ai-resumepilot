@@ -6,14 +6,10 @@ export default defineConfig({
   },
   vite: {
     optimizeDeps: {
-      // latex.js dynamically `require()`s package/documentclass files and ships
-      // .keep marker files that esbuild's dep optimizer can't load.
+      // latex.js dynamically require()s package/documentclass files and ships
+      // .keep marker files that esbuild's dep optimizer can't load. html2pdf.js
+      // is browser-only too. Both are imported dynamically inside effects.
       exclude: ["latex.js", "html2pdf.js"],
-    },
-    ssr: {
-      // Both are browser-only — never bundle into SSR.
-      noExternal: [],
-      external: ["latex.js", "html2pdf.js"],
     },
   },
 });
