@@ -166,16 +166,57 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
                 </div>
               </div>
 
-              {job.url && (
-                <a
-                  href={job.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-brand-600 hover:text-brand-800 font-medium"
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                {job.url && (
+                  <a
+                    href={job.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm text-brand-600 hover:text-brand-800 font-medium"
+                  >
+                    View posting <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                )}
+                <button
+                  type="button"
+                  disabled={pickingId === job.id}
+                  onClick={async () => {
+                    setPickNote(null);
+                    setPickingId(job.id);
+                    try {
+                      let jdText = job.description;
+                      let source: "url" | "fallback" = "fallback";
+                      if (job.url) {
+                        const res = await fetchJdFn({
+                          data: { url: job.url, fallback: job.description },
+                        });
+                        jdText = res.text;
+                        source = res.source;
+                      }
+                      const header = `# ${job.title} — ${job.company} (${job.location})\nSource: ${job.url || "Adzuna snippet"}\n\n`;
+                      setJobDescription(header + jdText);
+                      setPickNote(
+                        source === "url"
+                          ? "Fetched full JD from the posting."
+                          : "Couldn't fetch the page — used the Adzuna snippet instead.",
+                      );
+                      onNext();
+                    } catch (e) {
+                      setPickNote(e instanceof Error ? e.message : "Failed to load JD");
+                    } finally {
+                      setPickingId(null);
+                    }
+                  }}
+                  className="ml-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold disabled:opacity-50"
                 >
-                  View posting <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              )}
+                  {pickingId === job.id ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <FileDown className="w-3.5 h-3.5" />
+                  )}
+                  Use this JD →
+                </button>
+              </div>
             </article>
           ))}
         </div>
