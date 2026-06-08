@@ -1,12 +1,12 @@
 "use client";
 
-export type TabId = "profile" | "jd" | "resume" | "career";
+export type TabId = "profile" | "jobs" | "jd" | "resume";
 
 const TABS: { id: TabId; label: string; step: number }[] = [
   { id: "profile", label: "Profile", step: 1 },
-  { id: "jd", label: "Job Description", step: 2 },
-  { id: "resume", label: "Resume", step: 3 },
-  { id: "career", label: "Career Match", step: 4 },
+  { id: "jobs", label: "Available Jobs", step: 2 },
+  { id: "jd", label: "Job Description", step: 3 },
+  { id: "resume", label: "Resume", step: 4 },
 ];
 
 interface TabNavigationProps {
