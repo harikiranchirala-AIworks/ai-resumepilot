@@ -72,6 +72,13 @@ export function ResumePdfPreview({
         html2canvas: { scale: 2, useCORS: true, letterRendering: true },
         jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
         pagebreak: { mode: ["avoid-all", "css", "legacy"] },
+      } as Parameters<ReturnType<typeof html2pdf>["set"]>[0])
+        margin: [0.45, 0.45, 0.45, 0.45],
+        filename: "tailored-resume.pdf",
+        image: { type: "jpeg", quality: 0.95 },
+        html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+        pagebreak: { mode: ["avoid-all", "css", "legacy"] },
       })
       .from(printHostRef.current)
       .outputPdf("blob")) as Blob;
