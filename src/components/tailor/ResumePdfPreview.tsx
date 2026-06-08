@@ -40,8 +40,18 @@ export function ResumePdfPreview({
     const latexjs = await import("latex.js");
     const { parse, HtmlGenerator } = latexjs;
 
+    // latex.js only supports a small subset of LaTeX and chokes on our
+    // ATS preamble (titlesec, enumitem, hyperref, geometry...). Extract just
+    // the body between \begin{document}..\end{document} and wrap it in a
+    // minimal article shell that latex.js can actually parse.
+    const bodyMatch = latex.match(
+      /\\begin\{document\}([\s\S]*?)\\end\{document\}/
+    );
+    const body = bodyMatch ? bodyMatch[1] : latex;
+    const minimal = `\\documentclass{article}\n\\begin{document}\n${body}\n\\end{document}`;
+
     const generator = new HtmlGenerator({ hyphenate: false });
-    parse(latex, { generator });
+    parse(minimal, { generator });
 
     target.innerHTML = "";
     const fragment = generator.domFragment();
@@ -57,6 +67,7 @@ export function ResumePdfPreview({
       document.head.appendChild(clone);
     }
   }, [latex]);
+
 
   const buildClientPdf = useCallback(async () => {
     if (!printHostRef.current) return null;
