@@ -56,7 +56,16 @@ export const matchJobs = createServerFn({ method: "POST" })
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("AI gateway not configured.");
 
-    const jobs = await fetchJobs(data.keywords || "");
+    let jobs: AdzunaJob[] = [];
+    try {
+      jobs = await fetchJobs(data.keywords || "");
+    } catch (err) {
+      console.error("[matchJobs] fetchJobs failed:", err);
+      throw new Error(
+        `Couldn't load jobs from Adzuna: ${err instanceof Error ? err.message : String(err)}`,
+      );
+    }
+    console.log(`[matchJobs] fetched ${jobs.length} jobs from Adzuna`);
     if (jobs.length === 0) {
       return {
         jobs: [],
