@@ -27,7 +27,7 @@ export function buildTailorPrompt(
   const profileLabel =
     profileMode === "profileId"
       ? "Candidate profile ID / structured profile data"
-      : "Candidate resume";
+      : "Candidate resume (verbatim — this is the ONLY source of truth about the candidate)";
 
   return `You are an expert resume writer and ATS optimization specialist.
 
@@ -43,12 +43,16 @@ ${jobDescription}
 
 Produce a tailored, honest LaTeX resume body (content only, no document preamble) aligned to this job.
 
-Rules:
-- Never fabricate experience, employers, degrees, or skills the candidate does not have
-- Reframe and prioritize existing experience to match the JD
-- Use strong action verbs and quantified bullets where the source material supports it
-- Use ATS-friendly structure: Summary, Experience, Skills, Education
-- Score match and ATS honestly based on the profile vs JD
+ABSOLUTE RULES — violating any of these is a failed response:
+1. Use ONLY information that appears in the candidate profile above. Do NOT invent a name, email, phone, location, employer, job title, date range, degree, university, certification, project, or metric.
+2. Extract the candidate's real NAME, EMAIL, PHONE, LOCATION, and LINKEDIN/GITHUB/PORTFOLIO links from the profile text and place them in a centered header block at the very top of the LaTeX body using \\begin{center} ... \\end{center}. If a contact field is genuinely missing from the profile, OMIT it — never write "[Name]", "[Email]", "Your Name", "TBD", "N/A", or any placeholder.
+3. Every Experience entry MUST use the exact company name, role title, and date range from the profile. Reorder bullets and reword them to emphasize JD-relevant impact, but the underlying facts must come from the profile.
+4. Skills section: list ONLY skills/tools that appear in the profile (you may group/rename, e.g. "React.js" → "React"). Do not add skills just because the JD mentions them.
+5. Education section: use the exact degree, institution, and year(s) from the profile.
+6. If the profile is too thin to fill a section (e.g. no projects listed), omit the section entirely instead of inventing content.
+7. Quantified bullets are only allowed when the number actually appears in the profile. Otherwise write qualitative bullets.
+
+Structure: Header (centered name + contacts) → Professional Summary → Experience → Skills → Education → (Projects / Certifications only if present in profile).
 
 Reply with ONLY valid JSON matching this shape (no markdown fences, no commentary):
 ${TAILOR_JSON_SCHEMA}`;
