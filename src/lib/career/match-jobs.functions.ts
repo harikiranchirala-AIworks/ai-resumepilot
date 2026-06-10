@@ -102,13 +102,28 @@ Return JSON in this exact shape:
 Pick exactly 5 picks (or fewer if <5 jobs available). Use ONLY ids from the list above.`;
 
     const gateway = createLovableAiGatewayProvider(apiKey);
-    const { text } = await generateText({
-      model: gateway("google/gemini-3-flash-preview"),
-      system: SYSTEM,
-      prompt,
-    });
+    let text = "";
+    try {
+      const out = await generateText({
+        model: gateway("google/gemini-2.5-flash"),
+        system: SYSTEM,
+        prompt,
+      });
+      text = out.text;
+    } catch (err) {
+      console.error("[matchJobs] AI gateway failed:", err);
+      throw new Error(
+        `AI ranking failed: ${err instanceof Error ? err.message : String(err)}`,
+      );
+    }
 
-    const parsed = parseAgentJson<AIResponse>(text);
+    let parsed: AIResponse;
+    try {
+      parsed = parseAgentJson<AIResponse>(text);
+    } catch (err) {
+      console.error("[matchJobs] JSON parse failed. Raw text:", text.slice(0, 500));
+      throw new Error("AI returned unparseable response. Please try again.");
+    }
     const byId = new Map<string, AdzunaJob>(jobs.map((j) => [j.id, j]));
 
     const ranked: RankedJob[] = [];
