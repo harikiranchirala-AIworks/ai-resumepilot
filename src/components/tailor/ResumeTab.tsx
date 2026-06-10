@@ -80,6 +80,14 @@ export function ResumeTab({ onBack }: ResumeTabProps) {
           </p>
         )}
 
+        {profile.mode === "profileId" && (
+          <p className="mt-4 text-sm text-amber-900 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+            You picked <strong>Profile ID</strong>, but there&apos;s no profile resolver wired up — the
+            generator only sees the ID string and can&apos;t produce a real resume. Go back to Step 1,
+            switch to <strong>Paste full resume</strong>, and paste your actual resume text for accurate output.
+          </p>
+        )}
+
         {error && (
           <p className="mt-4 text-sm text-rose-800 bg-rose-50 border border-rose-200 rounded-xl px-4 py-3">
             {error}
