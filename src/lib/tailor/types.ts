@@ -1,9 +1,44 @@
 export type ProfileInputMode = "profileId" | "resumeText";
 
+export interface ParsedExperience {
+  company: string;
+  title: string;
+  dates: string;
+  location?: string;
+  bullets: string[];
+}
+
+export interface ParsedEducation {
+  degree: string;
+  institution: string;
+  dates: string;
+}
+
+export interface ParsedProject {
+  name: string;
+  description: string;
+}
+
+export interface ParsedProfile {
+  name: string;
+  email: string;
+  phone: string;
+  location: string;
+  links: string[];
+  headline: string;
+  summary: string;
+  skills: string[];
+  experience: ParsedExperience[];
+  education: ParsedEducation[];
+  projects: ParsedProject[];
+  certifications: string[];
+}
+
 export interface ProfileState {
   mode: ProfileInputMode;
   profileId: string;
   resumeText: string;
+  parsed: ParsedProfile | null;
 }
 
 export interface JDState {
