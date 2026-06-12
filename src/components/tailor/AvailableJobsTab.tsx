@@ -19,6 +19,9 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
   const profileContent = getProfileContent(profile);
 
   const [keywords, setKeywords] = useState("");
+  const [locationsInput, setLocationsInput] = useState("Hyderabad, Bangalore, Remote");
+  const [remoteOnly, setRemoteOnly] = useState(false);
+  const [minSalary, setMinSalary] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<MatchJobsResult | null>(null);
@@ -36,8 +39,19 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
     }
     setLoading(true);
     try {
+      const locations = locationsInput
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean);
+      const minSal = minSalary ? Number(minSalary) : undefined;
       const res = await matchFn({
-        data: { profile: profileContent, keywords: keywords.trim() },
+        data: {
+          profile: profileContent,
+          keywords: keywords.trim(),
+          locations: locations.length ? locations : undefined,
+          remoteOnly,
+          minSalary: minSal && !Number.isNaN(minSal) ? minSal : undefined,
+        },
       });
       setResult(res);
     } catch (e) {
@@ -56,8 +70,7 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
           </p>
           <h2 className="text-xl font-bold text-brand-900">Available Jobs</h2>
           <p className="mt-1 text-sm text-slate-600">
-            We&apos;ll read your profile, pull live jobs from Hyderabad, Bangalore &amp; Remote,
-            then AI picks your top 5 with fitment %.
+            We&apos;ll read your profile, pull live jobs, then AI picks your top 20 with fitment %.
           </p>
         </div>
 
@@ -71,16 +84,52 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
           </div>
         )}
 
-        <div className="space-y-2">
-          <label className="block text-sm font-semibold text-brand-800">
-            Keywords / job titles to filter (optional)
-          </label>
-          <input
-            value={keywords}
-            onChange={(e) => setKeywords(e.target.value)}
-            placeholder="e.g. product manager, fintech, react"
-            className="input-field"
-          />
+        <div className="grid sm:grid-cols-2 gap-3">
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-brand-800">
+              Keywords / job titles (optional)
+            </label>
+            <input
+              value={keywords}
+              onChange={(e) => setKeywords(e.target.value)}
+              placeholder="e.g. product manager, fintech, react"
+              className="input-field"
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-brand-800">
+              Locations (comma-separated)
+            </label>
+            <input
+              value={locationsInput}
+              onChange={(e) => setLocationsInput(e.target.value)}
+              placeholder="Hyderabad, Bangalore, Remote"
+              className="input-field"
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-brand-800">
+              Minimum salary (₹/year, optional)
+            </label>
+            <input
+              type="number"
+              value={minSalary}
+              onChange={(e) => setMinSalary(e.target.value)}
+              placeholder="e.g. 1500000"
+              className="input-field"
+            />
+          </div>
+          <div className="flex items-end">
+            <label className="inline-flex items-center gap-2 text-sm font-medium text-brand-800 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={remoteOnly}
+                onChange={(e) => setRemoteOnly(e.target.checked)}
+                className="w-4 h-4 rounded border-brand-300 text-brand-600 focus:ring-brand-500"
+              />
+              Remote only
+            </label>
+          </div>
         </div>
 
         <div className="flex justify-between items-center pt-1">
