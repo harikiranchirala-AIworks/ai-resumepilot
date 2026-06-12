@@ -8,6 +8,9 @@ import { fetchJobs, type AdzunaJob } from "./adzuna.server";
 const InputSchema = z.object({
   profile: z.string().min(50).max(20000),
   keywords: z.string().max(200).optional().default(""),
+  locations: z.array(z.string()).max(10).optional(),
+  remoteOnly: z.boolean().optional().default(false),
+  minSalary: z.number().min(0).optional(),
 });
 
 export interface RankedJob {
@@ -34,7 +37,7 @@ const SYSTEM = `You are an expert career advisor and technical recruiter.
 You receive a candidate profile and a list of real job postings. You must:
 1. Read the candidate profile carefully (current role, skills, years of experience, domain).
 2. Score every job 0-100 on how well the candidate's CURRENT profile fits the role (skills overlap, seniority, domain).
-3. Pick the BEST 5 jobs the candidate should apply for, balancing fit and growth potential.
+3. Pick the BEST 20 jobs the candidate should apply for, balancing fit and growth potential. Rank them by fitment descending.
 4. For each, write a concise honest justification and the main gap to close.
 5. Write an overall note explaining the theme of the recommendations and the candidate's overall fitment percentage range with this market.
 Return ONLY valid JSON. No prose, no markdown fences.`;
@@ -58,7 +61,11 @@ export const matchJobs = createServerFn({ method: "POST" })
 
     let jobs: AdzunaJob[] = [];
     try {
-      jobs = await fetchJobs(data.keywords || "");
+      jobs = await fetchJobs(data.keywords || "", {
+        locations: data.locations,
+        remoteOnly: data.remoteOnly,
+        minSalary: data.minSalary,
+      });
     } catch (err) {
       console.error("[matchJobs] fetchJobs failed:", err);
       throw new Error(
@@ -69,26 +76,31 @@ export const matchJobs = createServerFn({ method: "POST" })
     if (jobs.length === 0) {
       return {
         jobs: [],
-        overallNote: "No jobs found from Adzuna for the requested locations. Try different keywords.",
+        overallNote: "No jobs matched your filters. Try widening locations, removing remote-only, or lowering salary minimum.",
         candidateSummary: "",
         totalScanned: 0,
       };
     }
 
-    const compactJobs = jobs.slice(0, 40).map((j) => ({
+    const compactJobs = jobs.slice(0, 80).map((j) => ({
       id: j.id,
       title: j.title,
       company: j.company,
       location: j.location,
-      snippet: j.description.slice(0, 600),
+      snippet: j.description.slice(0, 500),
     }));
+
+    const locLabel =
+      data.locations && data.locations.length
+        ? data.locations.join(", ")
+        : "Hyderabad, Bangalore, Remote";
 
     const prompt = `CANDIDATE PROFILE:
 """
 ${data.profile}
 """
 
-JOB POSTINGS (${compactJobs.length} jobs from Hyderabad, Bangalore, Remote):
+JOB POSTINGS (${compactJobs.length} jobs from ${locLabel}):
 ${JSON.stringify(compactJobs, null, 2)}
 
 Return JSON in this exact shape:
@@ -99,7 +111,7 @@ Return JSON in this exact shape:
     { "id": "<job id from list>", "fitmentPercent": 0-100, "whyFit": "2-3 sentences", "gaps": "1 sentence on what to close" }
   ]
 }
-Pick exactly 5 picks (or fewer if <5 jobs available). Use ONLY ids from the list above.`;
+Pick up to 20 picks ranked by fitment descending (fewer if <20 jobs available). Use ONLY ids from the list above.`;
 
     const gateway = createLovableAiGatewayProvider(apiKey);
     let text = "";
@@ -142,8 +154,9 @@ Pick exactly 5 picks (or fewer if <5 jobs available). Use ONLY ids from the list
         whyFit: p.whyFit,
         gaps: p.gaps,
       });
-      if (ranked.length >= 5) break;
+      if (ranked.length >= 20) break;
     }
+    ranked.sort((a, b) => b.fitmentPercent - a.fitmentPercent);
 
     return {
       jobs: ranked,
