@@ -6,6 +6,7 @@ import { ProfileTab } from "@/components/tailor/ProfileTab";
 import { JDTab } from "@/components/tailor/JDTab";
 import { ResumeTab } from "@/components/tailor/ResumeTab";
 import { AvailableJobsTab } from "@/components/tailor/AvailableJobsTab";
+import logoAsset from "@/assets/logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
