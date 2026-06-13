@@ -1,6 +1,8 @@
-# ResumePilot — V2
+# ResumePilot
 
 > AI-powered resume tailoring, job matching, and cover letter generation.
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-ai--resumepilot.lovable.app-blue)](https://ai-resumepilot.lovable.app)
 
 ## What is this?
 
