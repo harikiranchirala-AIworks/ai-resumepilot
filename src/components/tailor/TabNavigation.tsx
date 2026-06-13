@@ -28,6 +28,7 @@ export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
             key={tab.id}
             type="button"
             onClick={() => onTabChange(tab.id)}
+            aria-label={`Step ${tab.step}: ${tab.label}`}
             aria-current={isActive ? "step" : undefined}
             className={`tab-btn group flex min-w-0 items-center justify-center gap-2 lg:justify-start lg:gap-3 ${
               isActive
