@@ -55,31 +55,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      create_resume_share: {
-        Args: {
-          p_company: string
-          p_job_summary: string
-          p_job_title: string
-          p_job_url: string
-          p_location: string
-          p_tailored_result: Json
-        }
-        Returns: string
-      }
-      get_resume_share: {
-        Args: { p_share_id: string }
-        Returns: {
-          company: string
-          created_at: string
-          expires_at: string
-          id: string
-          job_summary: string
-          job_title: string
-          job_url: string
-          location: string
-          tailored_result: Json
-        }[]
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
