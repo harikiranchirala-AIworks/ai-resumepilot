@@ -1,3 +1,5 @@
+export type JobSource = "Adzuna" | "Remotive" | "Arbeitnow";
+
 export interface AdzunaJob {
   id: string;
   title: string;
@@ -9,6 +11,7 @@ export interface AdzunaJob {
   salaryMin?: number;
   created?: string;
   isRemote?: boolean;
+  sources: JobSource[];
 }
 
 export interface JobFilters {
@@ -68,6 +71,7 @@ async function fetchAdzuna(
       salaryMin: j.salary_min,
       created: j.created,
       isRemote,
+      sources: ["Adzuna"],
     };
   });
 }
@@ -113,8 +117,9 @@ export async function fetchJobs(
     );
   }
   if (filters.minSalary && filters.minSalary > 0) {
+    const minimumSalary = filters.minSalary;
     filtered = filtered.filter(
-      (j) => (j.salaryMin ?? 0) >= filters.minSalary!,
+      (j) => (j.salaryMin ?? 0) >= minimumSalary,
     );
   }
   return filtered;

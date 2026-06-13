@@ -177,7 +177,9 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
             )}
             <p className="text-sm text-brand-800">{result.overallNote}</p>
             <p className="text-xs text-brand-500">
-              Scanned {result.totalScanned} live postings · showing top {result.jobs.length}
+              Collected {result.totalCollected} live postings across {Object.keys(result.sourceStats).length} sources
+              {result.duplicatesRemoved > 0 ? ` · removed ${result.duplicatesRemoved} duplicates` : ""}
+              {` · ranked ${result.totalScanned} unique jobs · showing top ${result.jobs.length}`}
             </p>
           </div>
 
@@ -200,6 +202,16 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
                     </span>
                   </div>
                   <h4 className="font-semibold text-brand-900 leading-tight">{job.title}</h4>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    {job.sources.map((source) => (
+                      <span
+                        key={source}
+                        className="rounded-full border border-brand-200 bg-brand-50 px-2 py-0.5 text-[11px] font-semibold text-brand-700"
+                      >
+                        {source}
+                      </span>
+                    ))}
+                  </div>
                   {job.salary && (
                     <p className="text-xs text-brand-600 mt-1">{job.salary}</p>
                   )}

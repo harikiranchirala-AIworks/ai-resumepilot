@@ -16,7 +16,8 @@ Tailor Resume helps you customize your resume for any job description. Paste you
 - Edit anything before moving forward — your data stays accurate for every downstream step.
 
 ### 2. Better Job Matching (Top 20 Picks)
-- Scans real job postings via Adzuna across your chosen locations.
+- Scans real job postings from Adzuna plus compliant public feeds (Remotive and Arbeitnow).
+- Normalizes and deduplicates matching company/title listings across sources.
 - AI ranks the **top 20** jobs by fitment (skills overlap, seniority, domain).
 - Each pick includes:
   - Fitment percentage (0–100)
@@ -73,7 +74,7 @@ Tailor Resume helps you customize your resume for any job description. Paste you
 - **Frontend:** React 19, Tailwind CSS v4, TanStack Router + TanStack Start
 - **State:** Zustand
 - **AI:** Lovable AI Gateway (Gemini models)
-- **Job data:** Adzuna API
+- **Job data:** Adzuna API, Remotive, and Arbeitnow public feeds
 - **PDF preview:** Client-side LaTeX-to-PDF rendering
 
 ---
@@ -108,7 +109,7 @@ The AI tailors and reframes your *existing* experience — it does **not** inven
 
 ## Version History
 
-- **V2** — Profile Intelligence, Top-20 Job Matching with filters, Editable LaTeX, Cover Letter generator
+- **V2** — Profile Intelligence, multi-source deduplicated Top-20 Job Matching, Editable LaTeX, Cover Letter generator
 - **V1** — Basic resume tailoring with ATS scoring and LaTeX output
 
 ---
