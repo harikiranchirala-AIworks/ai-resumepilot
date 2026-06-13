@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://atsresumeready.com/sitemap.xml
+Sitemap: https://atsresumeready.lovable.app/sitemap.xml
