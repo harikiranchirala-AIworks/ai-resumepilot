@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShareShareIdRouteImport } from './routes/share.$shareId'
 
 const WorkspaceRoute = WorkspaceRouteImport.update({
   id: '/workspace',
@@ -40,6 +41,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShareShareIdRoute = ShareShareIdRouteImport.update({
+  id: '/share/$shareId',
+  path: '/share/$shareId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/how-it-works': typeof HowItWorksRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/workspace': typeof WorkspaceRoute
+  '/share/$shareId': typeof ShareShareIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/how-it-works': typeof HowItWorksRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/workspace': typeof WorkspaceRoute
+  '/share/$shareId': typeof ShareShareIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,12 +70,25 @@ export interface FileRoutesById {
   '/how-it-works': typeof HowItWorksRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/workspace': typeof WorkspaceRoute
+  '/share/$shareId': typeof ShareShareIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/how-it-works' | '/sitemap.xml' | '/workspace'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/how-it-works'
+    | '/sitemap.xml'
+    | '/workspace'
+    | '/share/$shareId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/how-it-works' | '/sitemap.xml' | '/workspace'
+  to:
+    | '/'
+    | '/about'
+    | '/how-it-works'
+    | '/sitemap.xml'
+    | '/workspace'
+    | '/share/$shareId'
   id:
     | '__root__'
     | '/'
@@ -75,6 +96,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/sitemap.xml'
     | '/workspace'
+    | '/share/$shareId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -83,6 +105,7 @@ export interface RootRouteChildren {
   HowItWorksRoute: typeof HowItWorksRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   WorkspaceRoute: typeof WorkspaceRoute
+  ShareShareIdRoute: typeof ShareShareIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -122,6 +145,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/share/$shareId': {
+      id: '/share/$shareId'
+      path: '/share/$shareId'
+      fullPath: '/share/$shareId'
+      preLoaderRoute: typeof ShareShareIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -131,7 +161,18 @@ const rootRouteChildren: RootRouteChildren = {
   HowItWorksRoute: HowItWorksRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   WorkspaceRoute: WorkspaceRoute,
+  ShareShareIdRoute: ShareShareIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
