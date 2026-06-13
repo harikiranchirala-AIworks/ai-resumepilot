@@ -63,7 +63,7 @@ export const fetchJobDescription = createServerFn({ method: "POST" })
         signal: AbortSignal.timeout(5000),
         headers: {
           "User-Agent":
-            "Mozilla/5.0 (compatible; ATSResumeReadyBot/1.0; +https://atsresumeready.com)",
+            "Mozilla/5.0 (compatible; ATSResumeReadyBot/1.0; +https://atsresumeready.lovable.app/)",
           Accept: "text/html,application/xhtml+xml",
         },
       });
