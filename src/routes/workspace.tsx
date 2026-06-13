@@ -95,7 +95,7 @@ function Home() {
             />
             <div className="min-w-0">
               <h1 className="truncate font-display text-xl font-semibold tracking-tight">
-                ATS Resume Ready
+                ATS Resume Ready — AI Career Workspace
               </h1>
               <p className="text-xs text-sidebar-foreground/60">AI career workspace</p>
             </div>
