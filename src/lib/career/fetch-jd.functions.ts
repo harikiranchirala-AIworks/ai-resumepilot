@@ -2,9 +2,24 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 const InputSchema = z.object({
-  url: z.string().url(),
+  url: z.string().url().refine(isSafePublicUrl, "Only public HTTPS job links are supported"),
   fallback: z.string().optional().default(""),
 });
+
+function isSafePublicUrl(raw: string): boolean {
+  try {
+    const url = new URL(raw);
+    if (url.protocol !== "https:") return false;
+    const host = url.hostname.toLowerCase().replace(/\.$/, "");
+    if (host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local")) return false;
+    if (/^(?:127\.|10\.|192\.168\.|169\.254\.|0\.|224\.|240\.)/.test(host)) return false;
+    if (/^172\.(?:1[6-9]|2\d|3[01])\./.test(host)) return false;
+    if (host === "::1" || host.startsWith("fc") || host.startsWith("fd") || host.startsWith("fe80:")) return false;
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 function htmlToText(html: string): string {
   // Strip scripts/styles
@@ -45,12 +60,14 @@ export const fetchJobDescription = createServerFn({ method: "POST" })
     try {
       const res = await fetch(data.url, {
         redirect: "follow",
+        signal: AbortSignal.timeout(5000),
         headers: {
           "User-Agent":
             "Mozilla/5.0 (compatible; ResumePilotBot/1.0; +https://ai-resumepilot.lovable.app)",
           Accept: "text/html,application/xhtml+xml",
         },
       });
+      if (!isSafePublicUrl(res.url)) throw new Error("Unsafe redirect");
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const html = await res.text();
       const text = htmlToText(html);
