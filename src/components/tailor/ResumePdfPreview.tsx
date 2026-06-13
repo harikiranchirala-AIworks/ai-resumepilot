@@ -76,7 +76,7 @@ function formatInlineLatex(text: string): string {
   return escapeHtml(cleanLatexText(withPlaceholders)).replace(/@@HTML_(\d+)@@/g, (_, index: string) => placeholders[Number(index)] ?? "");
 }
 
-function renderResumeHtml(source: string): string {
+export function renderResumeHtml(source: string): string {
   const body = extractDocumentBody(source)
     .replace(/%.*$/gm, "")
     .replace(/\\\\(?:\[[^\]]*\])?/g, "\n");

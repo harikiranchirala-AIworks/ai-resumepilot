@@ -1,17 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { ShieldCheck, Sparkles } from "lucide-react";
+import { Home, ShieldCheck, Sparkles } from "lucide-react";
 import { TabNavigation, type TabId } from "@/components/tailor/TabNavigation";
 import { ProfileTab } from "@/components/tailor/ProfileTab";
 import { JDTab } from "@/components/tailor/JDTab";
 import { ResumeTab } from "@/components/tailor/ResumeTab";
 import { AvailableJobsTab } from "@/components/tailor/AvailableJobsTab";
 import logoAsset from "@/assets/logo.png.asset.json";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const Route = createFileRoute("/workspace")({
   head: () => ({
     meta: [
-      { title: "AI Resume Tailoring & Job Matching | ResumePilot" },
+      { title: "AI Resume Workspace | ResumePilot" },
       {
         name: "description",
         content:
@@ -31,7 +32,7 @@ export const Route = createFileRoute("/workspace")({
         content:
           "Match with relevant jobs and tailor ATS-friendly resumes and cover letters for every application.",
       },
-      { property: "og:url", content: "https://ai-resumepilot.lovable.app" },
+      { property: "og:url", content: "https://ai-resumepilot.lovable.app/workspace" },
       {
         property: "og:image",
         content: `https://ai-resumepilot.lovable.app${logoAsset.url}`,
@@ -52,7 +53,7 @@ export const Route = createFileRoute("/workspace")({
         content: `https://ai-resumepilot.lovable.app${logoAsset.url}`,
       },
     ],
-    links: [{ rel: "canonical", href: "https://ai-resumepilot.lovable.app" }],
+    links: [{ rel: "canonical", href: "https://ai-resumepilot.lovable.app/workspace" }],
     scripts: [
       {
         type: "application/ld+json",
@@ -128,9 +129,15 @@ function Home() {
                 Build your strongest application
               </h2>
             </div>
-            <div className="hidden shrink-0 items-center gap-2 rounded-full border border-border bg-card px-3 py-2 text-xs font-medium text-muted-foreground sm:flex">
-              <ShieldCheck className="h-4 w-4 text-accent-foreground" />
-              Private workspace
+            <div className="flex shrink-0 items-center gap-1">
+              <div className="hidden items-center gap-2 rounded-full border border-border bg-card px-3 py-2 text-xs font-medium text-muted-foreground sm:flex">
+                <ShieldCheck className="h-4 w-4 text-accent-foreground" />
+                Private workspace
+              </div>
+              <ThemeToggle />
+              <Link to="/" className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground" aria-label="Back to home">
+                <Home className="h-4 w-4" />
+              </Link>
             </div>
           </header>
 
