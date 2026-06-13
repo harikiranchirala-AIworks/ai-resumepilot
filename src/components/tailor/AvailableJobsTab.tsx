@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Loader2, ExternalLink, Briefcase, MapPin, Sparkles, FileDown } from "lucide-react";
+import { Loader2, ExternalLink, Briefcase, MapPin, Sparkles, FileDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { matchJobs, type MatchJobsResult } from "@/lib/career/match-jobs.functions";
 import { fetchJobDescription } from "@/lib/career/fetch-jd.functions";
 import { useAppStore, getProfileContent } from "@/lib/tailor/store";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   onBack: () => void;
@@ -25,14 +26,20 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<MatchJobsResult | null>(null);
+  const [page, setPage] = useState(1);
+  const [pageResults, setPageResults] = useState<Record<number, MatchJobsResult>>({});
   const [pickingId, setPickingId] = useState<string | null>(null);
   const [pickNote, setPickNote] = useState<string | null>(null);
 
   const profileReady = profileContent.length >= 50;
 
-  async function handleRun() {
+  async function handleRun(targetPage = 1, freshSearch = false) {
     setError(null);
-    setResult(null);
+    if (freshSearch) {
+      setResult(null);
+      setPageResults({});
+      setPage(1);
+    }
     if (!profileReady) {
       setError("Go back to Profile and add at least 50 characters of your background.");
       return;
@@ -44,6 +51,9 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
         .map((s) => s.trim())
         .filter(Boolean);
       const minSal = minSalary ? Number(minSalary) : undefined;
+      const excludeIds = freshSearch
+        ? []
+        : Object.values(pageResults).flatMap((pageResult) => pageResult.jobs.map((job) => job.id));
       const res = await matchFn({
         data: {
           profile: profileContent,
@@ -51,15 +61,36 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
           locations: locations.length ? locations : undefined,
           remoteOnly,
           minSalary: minSal && !Number.isNaN(minSal) ? minSal : undefined,
+          page: targetPage,
+          excludeIds,
         },
       });
       setResult(res);
+      setPage(targetPage);
+      setPageResults((current) => freshSearch ? { [targetPage]: res } : { ...current, [targetPage]: res });
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to fetch matches");
     } finally {
       setLoading(false);
     }
   }
+
+  function showPage(targetPage: number) {
+    const cached = pageResults[targetPage];
+    if (cached) {
+      setResult(cached);
+      setPage(targetPage);
+      return;
+    }
+    void handleRun(targetPage);
+  }
+
+  const boardQuery = [keywords.trim(), locationsInput.trim()].filter(Boolean).join(" ");
+  const externalBoards = [
+    { name: "LinkedIn", href: `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(boardQuery)}` },
+    { name: "Indeed", href: `https://in.indeed.com/jobs?q=${encodeURIComponent(keywords.trim())}&l=${encodeURIComponent(locationsInput.trim())}` },
+    { name: "Naukri", href: `https://www.naukri.com/${encodeURIComponent(keywords.trim() || "jobs")}-jobs?k=${encodeURIComponent(keywords.trim())}&l=${encodeURIComponent(locationsInput.trim())}` },
+  ];
 
   return (
     <section className="space-y-6">
@@ -70,7 +101,7 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
           </p>
           <h2 className="text-xl font-bold text-brand-900">Available Jobs</h2>
           <p className="mt-1 text-sm text-slate-600">
-            We&apos;ll scan Adzuna and public job feeds, remove duplicate listings, then AI picks your top 20 with fitment %.
+            We&apos;ll scan Adzuna, Remotive, and Arbeitnow, remove duplicates, then AI ranks 20 jobs at a time by fitment.
           </p>
         </div>
 
@@ -143,7 +174,7 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={handleRun}
+              onClick={() => void handleRun(1, true)}
               disabled={loading || !profileReady}
               className="px-5 py-2.5 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-medium text-sm flex items-center gap-2 disabled:opacity-50"
             >
@@ -166,6 +197,20 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
         {pickNote && (
           <div className="p-3 rounded-lg bg-brand-50 border border-brand-200 text-sm text-brand-800">{pickNote}</div>
         )}
+
+        <div className="border-t border-border pt-4">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Search more job boards</p>
+          <div className="flex flex-wrap gap-2">
+            {externalBoards.map((board) => (
+              <Button key={board.name} asChild variant="outline" size="sm">
+                <a href={board.href} target="_blank" rel="noopener noreferrer">
+                  {board.name} <ExternalLink />
+                </a>
+              </Button>
+            ))}
+          </div>
+          <p className="mt-2 text-xs text-muted-foreground">These open the same search directly on each board.</p>
+        </div>
       </div>
 
       {result && (
@@ -179,7 +224,7 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
             <p className="text-xs text-brand-500">
               Collected {result.totalCollected} live postings across {Object.keys(result.sourceStats).length} sources
               {result.duplicatesRemoved > 0 ? ` · removed ${result.duplicatesRemoved} duplicates` : ""}
-              {` · ranked ${result.totalScanned} unique jobs · showing top ${result.jobs.length}`}
+              {` · ranked ${result.totalScanned} unique jobs · showing ${result.jobs.length} on page ${page}`}
             </p>
           </div>
 
@@ -192,7 +237,7 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-2 text-xs text-brand-500 mb-1">
                     <span className="px-2 py-0.5 rounded-full bg-brand-100 text-brand-700 font-semibold">
-                      #{idx + 1}
+                      #{(page - 1) * 20 + idx + 1}
                     </span>
                     <span className="flex items-center gap-1">
                       <Briefcase className="w-3 h-3" /> {job.company}
@@ -257,7 +302,7 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
                         jdText = res.text;
                         source = res.source;
                       }
-                      const header = `# ${job.title} — ${job.company} (${job.location})\nSource: ${job.url || "Adzuna snippet"}\n\n`;
+                      const header = `# ${job.title} — ${job.company} (${job.location})\nSource: ${job.url || "Job feed snippet"}\n\n`;
                       setJobDescription(header + jdText);
                       setSelectedJob({
                         title: job.title,
@@ -268,7 +313,7 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
                       setPickNote(
                         source === "url"
                           ? "Fetched full JD from the posting."
-                          : "Couldn't fetch the page — used the Adzuna snippet instead.",
+                          : "Couldn't fetch the page — used the job feed snippet instead.",
                       );
                       onNext();
                     } catch (e) {
@@ -289,6 +334,23 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
               </div>
             </article>
           ))}
+
+          {result.jobs.length > 0 && (
+            <nav aria-label="Job result pages" className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm text-muted-foreground">
+                Page <span className="font-semibold text-foreground">{page}</span> · jobs {(page - 1) * 20 + 1}–{(page - 1) * 20 + result.jobs.length}
+              </p>
+              <div className="flex items-center gap-2">
+                <Button type="button" variant="outline" disabled={loading || page === 1} onClick={() => showPage(page - 1)}>
+                  <ChevronLeft /> Previous 20
+                </Button>
+                <Button type="button" disabled={loading || !result.hasMore} onClick={() => showPage(page + 1)}>
+                  {loading ? <Loader2 className="animate-spin" /> : <ChevronRight />}
+                  Next 20
+                </Button>
+              </div>
+            </nav>
+          )}
         </div>
       )}
     </section>
