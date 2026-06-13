@@ -38,6 +38,10 @@ ResumePilot helps you customize your resume for any job description. Paste your 
 - Fully editable textarea — tweak tone and details before copying.
 - One-click copy to clipboard.
 
+### 5. Share for Feedback
+- Create a 90-day shareable link with the selected job and tailored preview.
+- Mentors or reviewers see the fit analysis and resume without accessing your source profile.
+
 ---
 
 ## How to Use
