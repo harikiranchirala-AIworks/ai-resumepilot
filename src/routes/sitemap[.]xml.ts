@@ -30,6 +30,11 @@ export const Route = createFileRoute("/sitemap.xml")({
           "    <changefreq>weekly</changefreq>",
           "    <priority>0.9</priority>",
           "  </url>",
+          "  <url>",
+          `    <loc>${BASE_URL}/blog/can-ai-tailor-my-resume</loc>`,
+          "    <changefreq>monthly</changefreq>",
+          "    <priority>0.8</priority>",
+          "  </url>",
           "</urlset>",
         ].join("\n");
 

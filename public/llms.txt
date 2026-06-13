@@ -1,0 +1,16 @@
+# ATS Resume Ready
+
+> An honest AI career workspace for finding relevant jobs and tailoring ATS-ready resumes without inventing experience.
+
+ATS Resume Ready helps candidates connect a target job with their real work history, assess fit, create a focused resume, and share a reviewable preview for trusted feedback.
+
+## Pages
+
+- [Home](/): Overview of honest AI resume tailoring and the connected application workflow.
+- [How It Works](/how-it-works): The process from source profile to a tailored, feedback-ready application.
+- [About](/about): ATS Resume Ready's principles for truthful, candidate-controlled career AI.
+- [AI Career Workspace](/workspace): The resume tailoring and job-matching application.
+
+## Guides
+
+- [Can AI Tailor My Resume to a Job Posting?](/blog/can-ai-tailor-my-resume): A practical guide to using AI without misrepresenting skills or experience.

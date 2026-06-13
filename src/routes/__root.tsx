@@ -123,7 +123,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "WebSite",
           name: "ATS Resume Ready",
-          url: "https://atsresumeready.com",
+          url: "https://atsresumeready.lovable.app/",
           description:
             "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
         }),

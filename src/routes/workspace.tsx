@@ -32,10 +32,10 @@ export const Route = createFileRoute("/workspace")({
         content:
           "Match with relevant jobs and tailor ATS-friendly resumes and cover letters for every application.",
       },
-      { property: "og:url", content: "https://atsresumeready.com/workspace" },
+      { property: "og:url", content: "https://atsresumeready.lovable.app/workspace" },
       {
         property: "og:image",
-        content: `https://atsresumeready.com${logoAsset.url}`,
+        content: `https://atsresumeready.lovable.app${logoAsset.url}`,
       },
       { property: "og:image:alt", content: "ATS Resume Ready logo" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -50,10 +50,10 @@ export const Route = createFileRoute("/workspace")({
       },
       {
         name: "twitter:image",
-        content: `https://atsresumeready.com${logoAsset.url}`,
+        content: `https://atsresumeready.lovable.app${logoAsset.url}`,
       },
     ],
-    links: [{ rel: "canonical", href: "https://atsresumeready.com/workspace" }],
+    links: [{ rel: "canonical", href: "https://atsresumeready.lovable.app/workspace" }],
     scripts: [
       {
         type: "application/ld+json",
@@ -61,7 +61,7 @@ export const Route = createFileRoute("/workspace")({
           "@context": "https://schema.org",
           "@type": "SoftwareApplication",
           name: "ATS Resume Ready",
-          url: "https://atsresumeready.com",
+          url: "https://atsresumeready.lovable.app/",
           applicationCategory: "BusinessApplication",
           operatingSystem: "Web",
           description:
@@ -97,12 +97,12 @@ function Home() {
               <h1 className="truncate font-display text-xl font-semibold tracking-tight">
                 ATS Resume Ready — AI Career Workspace
               </h1>
-              <p className="text-xs text-sidebar-foreground/60">AI career workspace</p>
+              <p className="text-xs text-sidebar-foreground">AI career workspace</p>
             </div>
           </div>
 
           <div className="mt-7 hidden lg:block">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-sidebar-foreground/45">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-sidebar-foreground">
               Your workflow
             </p>
           </div>
@@ -113,7 +113,7 @@ function Home() {
           <div className="mt-6 hidden rounded-2xl border border-sidebar-border bg-sidebar-accent/45 p-4 lg:block">
             <Sparkles className="h-4 w-4 text-sidebar-primary" />
             <p className="mt-3 text-sm font-semibold">Built for honest tailoring</p>
-            <p className="mt-1 text-xs leading-relaxed text-sidebar-foreground/60">
+            <p className="mt-1 text-xs leading-relaxed text-sidebar-foreground">
               ATS Resume Ready reframes your real experience—it never invents qualifications.
             </p>
           </div>

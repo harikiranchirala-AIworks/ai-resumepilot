@@ -76,7 +76,7 @@
   --secondary: oklch(0.94 0.02 220);
   --secondary-foreground: oklch(0.208 0.042 265.755);
   --muted: oklch(0.955 0.012 220);
-  --muted-foreground: oklch(0.52 0.035 235);
+  --muted-foreground: oklch(0.43 0.04 235);
   --accent: oklch(0.78 0.095 190);
   --accent-foreground: oklch(0.31 0.075 220);
   --destructive: oklch(0.577 0.245 27.325);
@@ -186,7 +186,7 @@
     @apply bg-sidebar-primary text-sidebar-primary-foreground shadow-card;
   }
   .tab-btn-inactive {
-    @apply text-sidebar-foreground/55 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground;
+    @apply text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground;
   }
   .tab-btn-done {
     @apply text-sidebar-accent-foreground bg-sidebar-accent/70;
@@ -199,7 +199,7 @@
   }
   .input-field {
     @apply w-full rounded-xl border border-input bg-muted/40 px-4 py-3 text-sm text-foreground
-      placeholder:text-muted-foreground/70 focus:bg-card focus:outline-hidden focus:ring-3 focus:ring-ring/15 focus:border-ring
+      placeholder:text-muted-foreground focus:bg-card focus:outline-hidden focus:ring-3 focus:ring-ring/15 focus:border-ring
       transition-all duration-200;
   }
   .btn-primary {
