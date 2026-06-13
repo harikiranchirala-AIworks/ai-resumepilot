@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 
 const PAGE_URL = "https://atsresumeready.lovable.app/blog/can-ai-tailor-my-resume";
 
-export const Route = createFileRoute("/blog/can-ai-tailor-my-resume")({
+export const Route = createFileRoute("/blog_/can-ai-tailor-my-resume")({
   head: () => ({
     meta: [
       { title: "Can AI Tailor My Resume to a Job Posting?" },

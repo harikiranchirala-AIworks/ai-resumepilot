@@ -15,7 +15,7 @@ import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShareShareIdRouteImport } from './routes/share.$shareId'
-import { Route as BlogCanAiTailorMyResumeRouteImport } from './routes/blog.can-ai-tailor-my-resume'
+import { Route as BlogCanAiTailorMyResumeRouteImport } from './routes/blog_.can-ai-tailor-my-resume'
 
 const WorkspaceRoute = WorkspaceRouteImport.update({
   id: '/workspace',
@@ -48,7 +48,7 @@ const ShareShareIdRoute = ShareShareIdRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogCanAiTailorMyResumeRoute = BlogCanAiTailorMyResumeRouteImport.update({
-  id: '/blog/can-ai-tailor-my-resume',
+  id: '/blog_/can-ai-tailor-my-resume',
   path: '/blog/can-ai-tailor-my-resume',
   getParentRoute: () => rootRouteImport,
 } as any)
@@ -78,7 +78,7 @@ export interface FileRoutesById {
   '/how-it-works': typeof HowItWorksRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/workspace': typeof WorkspaceRoute
-  '/blog/can-ai-tailor-my-resume': typeof BlogCanAiTailorMyResumeRoute
+  '/blog_/can-ai-tailor-my-resume': typeof BlogCanAiTailorMyResumeRoute
   '/share/$shareId': typeof ShareShareIdRoute
 }
 export interface FileRouteTypes {
@@ -107,7 +107,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/sitemap.xml'
     | '/workspace'
-    | '/blog/can-ai-tailor-my-resume'
+    | '/blog_/can-ai-tailor-my-resume'
     | '/share/$shareId'
   fileRoutesById: FileRoutesById
 }
@@ -165,8 +165,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShareShareIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blog/can-ai-tailor-my-resume': {
-      id: '/blog/can-ai-tailor-my-resume'
+    '/blog_/can-ai-tailor-my-resume': {
+      id: '/blog_/can-ai-tailor-my-resume'
       path: '/blog/can-ai-tailor-my-resume'
       fullPath: '/blog/can-ai-tailor-my-resume'
       preLoaderRoute: typeof BlogCanAiTailorMyResumeRouteImport
@@ -187,3 +187,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
