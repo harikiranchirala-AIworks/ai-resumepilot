@@ -6,17 +6,17 @@ import { ProfileTab } from "@/components/tailor/ProfileTab";
 import { JDTab } from "@/components/tailor/JDTab";
 import { ResumeTab } from "@/components/tailor/ResumeTab";
 import { AvailableJobsTab } from "@/components/tailor/AvailableJobsTab";
-import logoAsset from "@/assets/logo.png.asset.json";
+import logoAsset from "@/assets/ats-resume-ready-logo.png.asset.json";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const Route = createFileRoute("/workspace")({
   head: () => ({
     meta: [
-      { title: "AI Resume Workspace | ResumePilot" },
+      { title: "AI Resume Workspace | ATS Resume Ready" },
       {
         name: "description",
         content:
-          "Match with relevant jobs and create ATS-friendly resumes and cover letters tailored to each role with ResumePilot's AI career workspace.",
+          "Match with relevant jobs and create ATS-friendly resumes and cover letters tailored to each role with ATS Resume Ready's AI career workspace.",
       },
       {
         name: "keywords",
@@ -25,23 +25,23 @@ export const Route = createFileRoute("/workspace")({
       },
       {
         property: "og:title",
-        content: "AI Resume Tailoring & Job Matching | ResumePilot",
+        content: "AI Resume Tailoring & Job Matching | ATS Resume Ready",
       },
       {
         property: "og:description",
         content:
           "Match with relevant jobs and tailor ATS-friendly resumes and cover letters for every application.",
       },
-      { property: "og:url", content: "https://ai-resumepilot.lovable.app/workspace" },
+      { property: "og:url", content: "https://atsresumeready.com/workspace" },
       {
         property: "og:image",
-        content: `https://ai-resumepilot.lovable.app${logoAsset.url}`,
+        content: `https://atsresumeready.com${logoAsset.url}`,
       },
-      { property: "og:image:alt", content: "ResumePilot logo" },
+      { property: "og:image:alt", content: "ATS Resume Ready logo" },
       { name: "twitter:card", content: "summary_large_image" },
       {
         name: "twitter:title",
-        content: "AI Resume Tailoring & Job Matching | ResumePilot",
+        content: "AI Resume Tailoring & Job Matching | ATS Resume Ready",
       },
       {
         name: "twitter:description",
@@ -50,18 +50,18 @@ export const Route = createFileRoute("/workspace")({
       },
       {
         name: "twitter:image",
-        content: `https://ai-resumepilot.lovable.app${logoAsset.url}`,
+        content: `https://atsresumeready.com${logoAsset.url}`,
       },
     ],
-    links: [{ rel: "canonical", href: "https://ai-resumepilot.lovable.app/workspace" }],
+    links: [{ rel: "canonical", href: "https://atsresumeready.com/workspace" }],
     scripts: [
       {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "SoftwareApplication",
-          name: "ResumePilot",
-          url: "https://ai-resumepilot.lovable.app",
+          name: "ATS Resume Ready",
+          url: "https://atsresumeready.com",
           applicationCategory: "BusinessApplication",
           operatingSystem: "Web",
           description:
@@ -88,14 +88,14 @@ function Home() {
           <div className="flex items-center gap-3">
             <img
               src={logoAsset.url}
-              alt="ResumePilot"
+              alt="ATS Resume Ready"
               className="h-11 w-11 shrink-0 rounded-2xl object-cover shadow-logo"
               width={44}
               height={44}
             />
             <div className="min-w-0">
               <h1 className="truncate font-display text-xl font-semibold tracking-tight">
-                ResumePilot
+                ATS Resume Ready
               </h1>
               <p className="text-xs text-sidebar-foreground/60">AI career workspace</p>
             </div>
@@ -114,7 +114,7 @@ function Home() {
             <Sparkles className="h-4 w-4 text-sidebar-primary" />
             <p className="mt-3 text-sm font-semibold">Built for honest tailoring</p>
             <p className="mt-1 text-xs leading-relaxed text-sidebar-foreground/60">
-              ResumePilot reframes your real experience—it never invents qualifications.
+              ATS Resume Ready reframes your real experience—it never invents qualifications.
             </p>
           </div>
         </aside>

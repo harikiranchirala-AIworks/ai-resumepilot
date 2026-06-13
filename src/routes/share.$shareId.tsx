@@ -8,16 +8,16 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Button } from "@/components/ui/button";
 
 function ShareNotFound() {
-  return <div className="min-h-screen bg-background"><SiteHeader /><main className="mx-auto flex max-w-xl flex-col items-center px-5 py-28 text-center"><h1 className="font-display text-3xl font-semibold text-foreground">This feedback link is unavailable.</h1><p className="mt-3 text-muted-foreground">It may have expired or the address may be incomplete.</p><Button asChild className="mt-7"><Link to="/">Visit ResumePilot</Link></Button></main><SiteFooter /></div>;
+  return <div className="min-h-screen bg-background"><SiteHeader /><main className="mx-auto flex max-w-xl flex-col items-center px-5 py-28 text-center"><h1 className="font-display text-3xl font-semibold text-foreground">This feedback link is unavailable.</h1><p className="mt-3 text-muted-foreground">It may have expired or the address may be incomplete.</p><Button asChild className="mt-7"><Link to="/">Visit ATS Resume Ready</Link></Button></main><SiteFooter /></div>;
 }
 
 export const Route = createFileRoute("/share/$shareId")({
   loader: ({ params }) => getResumeShare({ data: { id: params.shareId } }),
   head: ({ loaderData }) => ({
     meta: [
-      { title: loaderData ? `${loaderData.job_title} at ${loaderData.company} | Feedback Preview` : "Feedback Preview | ResumePilot" },
-      { name: "description", content: loaderData ? `Review a tailored application for ${loaderData.job_title} at ${loaderData.company}.` : "Review a shared ResumePilot application." },
-      { property: "og:title", content: loaderData ? `${loaderData.job_title} at ${loaderData.company} | Feedback Preview` : "Feedback Preview | ResumePilot" },
+      { title: loaderData ? `${loaderData.job_title} at ${loaderData.company} | Feedback Preview` : "Feedback | ATS Resume Ready" },
+      { name: "description", content: loaderData ? `Review a tailored application for ${loaderData.job_title} at ${loaderData.company}.` : "Review a shared ATS Resume Ready application." },
+      { property: "og:title", content: loaderData ? `${loaderData.job_title} at ${loaderData.company} | Feedback Preview` : "Feedback | ATS Resume Ready" },
       { property: "og:description", content: "A job-specific resume preview shared for trusted feedback." },
       { property: "og:type", content: "website" },
       { name: "robots", content: "noindex, nofollow" },

@@ -7,13 +7,13 @@ import { SiteFooter } from "@/components/SiteFooter";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "AI Resume Tailoring & Job Matching | ResumePilot" },
-      { name: "description", content: "Find relevant jobs, tailor an honest ATS-ready resume, and share your application for feedback with ResumePilot." },
-      { property: "og:title", content: "AI Resume Tailoring & Job Matching | ResumePilot" },
+      { title: "AI Resume Tailoring | ATS Resume Ready" },
+      { name: "description", content: "Find relevant jobs, tailor an honest ATS-ready resume, and share your application for feedback with ATS Resume Ready." },
+      { property: "og:title", content: "AI Resume Tailoring | ATS Resume Ready" },
       { property: "og:description", content: "Move from job search to a tailored, feedback-ready application in one focused workspace." },
-      { property: "og:url", content: "https://ai-resumepilot.lovable.app" },
+      { property: "og:url", content: "https://atsresumeready.com" },
     ],
-    links: [{ rel: "canonical", href: "https://ai-resumepilot.lovable.app" }],
+    links: [{ rel: "canonical", href: "https://atsresumeready.com" }],
   }),
   component: LandingPage,
 });
@@ -34,7 +34,7 @@ function LandingPage() {
             <div className="flex flex-col justify-center">
               <p className="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary"><ShieldCheck className="h-4 w-4" /> Honest AI application studio</p>
               <h1 className="max-w-3xl font-display text-5xl font-semibold leading-[1.06] tracking-[-0.04em] text-foreground sm:text-6xl">A stronger application, without rewriting who you are.</h1>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">ResumePilot connects job discovery, fit analysis, resume tailoring, and mentor feedback in one calm workspace.</p>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">ATS Resume Ready connects job discovery, fit analysis, resume tailoring, and mentor feedback in one calm workspace.</p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Button asChild size="lg"><Link to="/workspace">Start tailoring <ArrowRight /></Link></Button>
                 <Button asChild size="lg" variant="outline"><Link to="/how-it-works">See how it works</Link></Button>
@@ -68,7 +68,7 @@ function LandingPage() {
           </div>
         </section>
 
-        <section className="border-y border-border bg-primary text-primary-foreground"><div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 py-14 sm:flex-row sm:items-center sm:justify-between lg:px-8"><div><p className="text-xs font-bold uppercase tracking-[0.2em] opacity-70">Your next application</p><h2 className="mt-2 font-display text-3xl font-semibold">Make it specific. Keep it truthful.</h2></div><Button asChild size="lg" variant="secondary"><Link to="/workspace">Open ResumePilot <ArrowRight /></Link></Button></div></section>
+        <section className="border-y border-border bg-primary text-primary-foreground"><div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 py-14 sm:flex-row sm:items-center sm:justify-between lg:px-8"><div><p className="text-xs font-bold uppercase tracking-[0.2em] opacity-70">Your next application</p><h2 className="mt-2 font-display text-3xl font-semibold">Make it specific. Keep it truthful.</h2></div><Button asChild size="lg" variant="secondary"><Link to="/workspace">Open ATS Resume Ready <ArrowRight /></Link></Button></div></section>
       </main>
       <SiteFooter />
     </div>

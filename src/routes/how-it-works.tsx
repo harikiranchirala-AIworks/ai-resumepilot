@@ -6,12 +6,12 @@ import { SiteFooter } from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/how-it-works")({
   head: () => ({ meta: [
-    { title: "How ResumePilot Works | AI Resume Tailoring" },
-    { name: "description", content: "See how ResumePilot turns your real experience and a target role into an ATS-ready resume and shareable feedback preview." },
-    { property: "og:title", content: "How ResumePilot Works | AI Resume Tailoring" },
+    { title: "How ATS Resume Ready Works | AI Tailoring" },
+    { name: "description", content: "See how ATS Resume Ready turns your real experience and a target role into an ATS-ready resume and shareable feedback preview." },
+    { property: "og:title", content: "How ATS Resume Ready Works | AI Tailoring" },
     { property: "og:description", content: "Four focused steps from your profile to a reviewable, tailored application." },
-    { property: "og:url", content: "https://ai-resumepilot.lovable.app/how-it-works" },
-  ], links: [{ rel: "canonical", href: "https://ai-resumepilot.lovable.app/how-it-works" }] }),
+    { property: "og:url", content: "https://atsresumeready.com/how-it-works" },
+  ], links: [{ rel: "canonical", href: "https://atsresumeready.com/how-it-works" }] }),
   component: HowItWorksPage,
 });
 
