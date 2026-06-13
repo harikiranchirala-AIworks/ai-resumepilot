@@ -2,12 +2,15 @@
 
 import { useCallback, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
+import { Check, Copy, Share2 } from "lucide-react";
 import { useAppStore, canGenerate, getProfileContent } from "@/lib/tailor/store";
 import { generateResume } from "@/lib/tailor/generate-resume.functions";
 import { generateCoverLetter } from "@/lib/tailor/generate-cover-letter.functions";
 import { ScoreBadge } from "./ScoreBadge";
 import { TabActions } from "./TabActions";
 import { ResumePdfPreview } from "./ResumePdfPreview";
+import { createResumeShare } from "@/lib/tailor/share.functions";
+import { Button } from "@/components/ui/button";
 
 interface ResumeTabProps {
   onBack: () => void;
@@ -17,12 +20,16 @@ export function ResumeTab({ onBack }: ResumeTabProps) {
   const [coverLetter, setCoverLetter] = useState("");
   const [isGeneratingLetter, setIsGeneratingLetter] = useState(false);
   const [coverLetterError, setCoverLetterError] = useState<string | null>(null);
+  const [shareUrl, setShareUrl] = useState("");
+  const [isSharing, setIsSharing] = useState(false);
+  const [shareError, setShareError] = useState<string | null>(null);
   const {
     profile,
     jd,
     result,
     isGenerating,
     error,
+    selectedJob,
     setResult,
     setIsGenerating,
     setError,
@@ -30,6 +37,7 @@ export function ResumeTab({ onBack }: ResumeTabProps) {
 
   const generateFn = useServerFn(generateResume);
   const generateCoverLetterFn = useServerFn(generateCoverLetter);
+  const createShareFn = useServerFn(createResumeShare);
 
   const handleGenerate = useCallback(async () => {
     if (!canGenerate(profile, jd)) return;
@@ -84,6 +92,31 @@ export function ResumeTab({ onBack }: ResumeTabProps) {
     await navigator.clipboard.writeText(coverLetter);
   }, [coverLetter]);
 
+  const handleShare = useCallback(async () => {
+    if (!result || !selectedJob) return;
+    setIsSharing(true);
+    setShareError(null);
+    try {
+      const created = await createShareFn({
+        data: {
+          jobTitle: selectedJob.title,
+          company: selectedJob.company,
+          location: selectedJob.location,
+          jobUrl: selectedJob.url,
+          jobSummary: jd.jobDescription.slice(0, 12000),
+          tailoredResult: result,
+        },
+      });
+      const url = `${window.location.origin}/share/${created.id}`;
+      setShareUrl(url);
+      await navigator.clipboard.writeText(url);
+    } catch (err) {
+      setShareError(err instanceof Error ? err.message : "Could not create a share link");
+    } finally {
+      setIsSharing(false);
+    }
+  }, [createShareFn, jd.jobDescription, result, selectedJob]);
+
   const ready = canGenerate(profile, jd);
 
   return (
@@ -128,6 +161,20 @@ export function ResumeTab({ onBack }: ResumeTabProps) {
 
       {result && (
         <>
+          <div className="flex flex-col gap-3 rounded-2xl border border-border bg-muted/40 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm font-semibold text-foreground">Invite feedback on this application</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                {selectedJob ? "Creates a 90-day link with the selected job and tailored preview only." : "Select a job from Available Jobs to enable a shareable mentor link."}
+              </p>
+            </div>
+            <Button type="button" variant="outline" onClick={handleShare} disabled={!selectedJob || isSharing}>
+              {shareUrl ? <Check /> : <Share2 />}
+              {isSharing ? "Creating…" : shareUrl ? "Link copied" : "Share for feedback"}
+            </Button>
+            {shareUrl && <Button type="button" variant="ghost" size="sm" onClick={() => navigator.clipboard.writeText(shareUrl)}><Copy /> Copy again</Button>}
+          </div>
+          {shareError && <p className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">{shareError}</p>}
           <div className="card">
             <h3 className="text-sm font-bold text-brand-900 mb-4">
               Profile ↔ Job Description Match
