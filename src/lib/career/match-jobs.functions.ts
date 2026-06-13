@@ -3,7 +3,8 @@ import { generateText } from "ai";
 import { z } from "zod";
 import { createLovableAiGatewayProvider } from "@/lib/tailor/ai-gateway.server";
 import { parseAgentJson } from "@/lib/tailor/parse-agent-json";
-import { fetchJobs, type AdzunaJob } from "./adzuna.server";
+import type { AdzunaJob, JobSource } from "./adzuna.server";
+import { fetchAggregatedJobs } from "./job-aggregator.server";
 
 const InputSchema = z.object({
   profile: z.string().min(50).max(20000),
@@ -21,6 +22,7 @@ export interface RankedJob {
   url: string;
   salary?: string;
   description: string;
+  sources: JobSource[];
   fitmentPercent: number;
   whyFit: string;
   gaps: string;
@@ -31,6 +33,9 @@ export interface MatchJobsResult {
   overallNote: string;
   candidateSummary: string;
   totalScanned: number;
+  totalCollected: number;
+  duplicatesRemoved: number;
+  sourceStats: Partial<Record<JobSource, number>>;
 }
 
 const SYSTEM = `You are an expert career advisor and technical recruiter.
@@ -60,25 +65,35 @@ export const matchJobs = createServerFn({ method: "POST" })
     if (!apiKey) throw new Error("AI gateway not configured.");
 
     let jobs: AdzunaJob[] = [];
+    let totalCollected = 0;
+    let duplicatesRemoved = 0;
+    let sourceStats: Partial<Record<JobSource, number>> = {};
     try {
-      jobs = await fetchJobs(data.keywords || "", {
+      const aggregated = await fetchAggregatedJobs(data.keywords || "", {
         locations: data.locations,
         remoteOnly: data.remoteOnly,
         minSalary: data.minSalary,
       });
+      jobs = aggregated.jobs;
+      totalCollected = aggregated.totalCollected;
+      duplicatesRemoved = aggregated.duplicatesRemoved;
+      sourceStats = aggregated.sourceStats;
     } catch (err) {
       console.error("[matchJobs] fetchJobs failed:", err);
       throw new Error(
-        `Couldn't load jobs from Adzuna: ${err instanceof Error ? err.message : String(err)}`,
+        `Couldn't load jobs: ${err instanceof Error ? err.message : String(err)}`,
       );
     }
-    console.log(`[matchJobs] fetched ${jobs.length} jobs from Adzuna`);
+    console.log(`[matchJobs] collected ${totalCollected} jobs; ${jobs.length} after deduplication`);
     if (jobs.length === 0) {
       return {
         jobs: [],
         overallNote: "No jobs matched your filters. Try widening locations, removing remote-only, or lowering salary minimum.",
         candidateSummary: "",
         totalScanned: 0,
+        totalCollected: 0,
+        duplicatesRemoved: 0,
+        sourceStats,
       };
     }
 
@@ -88,6 +103,7 @@ export const matchJobs = createServerFn({ method: "POST" })
       company: j.company,
       location: j.location,
       snippet: j.description.slice(0, 500),
+      sources: j.sources,
     }));
 
     const locLabel =
@@ -150,6 +166,7 @@ Pick up to 20 picks ranked by fitment descending (fewer if <20 jobs available). 
         url: job.url,
         salary: job.salary,
         description: job.description,
+        sources: job.sources,
         fitmentPercent: Math.max(0, Math.min(100, Math.round(p.fitmentPercent))),
         whyFit: p.whyFit,
         gaps: p.gaps,
@@ -163,5 +180,8 @@ Pick up to 20 picks ranked by fitment descending (fewer if <20 jobs available). 
       overallNote: parsed.overallNote ?? "",
       candidateSummary: parsed.candidateSummary ?? "",
       totalScanned: jobs.length,
+      totalCollected,
+      duplicatesRemoved,
+      sourceStats,
     };
   });
