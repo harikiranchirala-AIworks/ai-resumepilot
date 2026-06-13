@@ -5,12 +5,14 @@ import type {
   ParsedProfile,
   ProfileInputMode,
   ProfileState,
+  SelectedJob,
 } from "./types";
 
 interface AppStore {
   profile: ProfileState;
   jd: JDState;
   result: GenerateResult | null;
+  selectedJob: SelectedJob | null;
   isGenerating: boolean;
   error: string | null;
 
@@ -20,6 +22,7 @@ interface AppStore {
   setParsed: (parsed: ParsedProfile | null) => void;
   updateParsed: (patch: Partial<ParsedProfile>) => void;
   setJobDescription: (text: string) => void;
+  setSelectedJob: (job: SelectedJob | null) => void;
   setResult: (result: GenerateResult | null) => void;
   setIsGenerating: (value: boolean) => void;
   setError: (error: string | null) => void;
@@ -36,6 +39,7 @@ export const useAppStore = create<AppStore>((set) => ({
     jobDescription: "",
   },
   result: null,
+  selectedJob: null,
   isGenerating: false,
   error: null,
 
@@ -81,6 +85,7 @@ export const useAppStore = create<AppStore>((set) => ({
       result: null,
       error: null,
     })),
+  setSelectedJob: (selectedJob) => set({ selectedJob }),
   setResult: (result) => set({ result }),
   setIsGenerating: (isGenerating) => set({ isGenerating }),
   setError: (error) => set({ error }),
