@@ -14,7 +14,7 @@ export function ThemeToggle() {
   function toggleTheme() {
     const next = !dark;
     document.documentElement.classList.toggle("dark", next);
-    localStorage.setItem("resumepilot-theme", next ? "dark" : "light");
+    localStorage.setItem("ats-resume-ready-theme", next ? "dark" : "light");
     setDark(next);
   }
 

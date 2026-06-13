@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ai-resumepilot.lovable.app/sitemap.xml
+Sitemap: https://atsresumeready.com/sitemap.xml

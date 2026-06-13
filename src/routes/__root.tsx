@@ -11,7 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import logoAsset from "../assets/logo.png.asset.json";
+import logoAsset from "../assets/ats-resume-ready-logo.png.asset.json";
 
 function NotFoundComponent() {
   return (
@@ -78,21 +78,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "ResumePilot — AI Resume Tailoring" },
+      { title: "ATS Resume Ready — AI Resume Tailoring" },
       {
         name: "description",
         content: "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
       },
-      { name: "author", content: "ResumePilot" },
-      { property: "og:title", content: "ResumePilot — AI Resume Tailoring" },
+      { name: "author", content: "ATS Resume Ready" },
+      { property: "og:title", content: "ATS Resume Ready — AI Resume Tailoring" },
       {
         property: "og:description",
         content: "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "ResumePilot" },
+      { property: "og:site_name", content: "ATS Resume Ready" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:title", content: "ResumePilot — AI Resume Tailoring" },
+      { name: "twitter:title", content: "ATS Resume Ready — AI Resume Tailoring" },
       {
         name: "twitter:description",
         content: "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
@@ -118,8 +118,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "ResumePilot",
-          url: "https://ai-resumepilot.lovable.app",
+          name: "ATS Resume Ready",
+          url: "https://atsresumeready.com",
           description:
             "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
         }),
@@ -141,7 +141,7 @@ function RootShell({ children }: { children: ReactNode }) {
       <body>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('resumepilot-theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',d)}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('ats-resume-ready-theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',d)}catch(e){}})();`,
           }}
         />
         {children}

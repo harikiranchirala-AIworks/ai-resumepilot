@@ -158,7 +158,7 @@
   }
 }
 
-/* ========== ResumePilot workspace tokens ========== */
+/* ========== ATS Resume Ready workspace tokens ========== */
 @theme {
   --color-brand-50: oklch(0.97 0.018 215);
   --color-brand-100: oklch(0.925 0.035 215);
