@@ -9,18 +9,27 @@ import { AvailableJobsTab } from "@/components/tailor/AvailableJobsTab";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Tailor Resume — AI-powered LaTeX resume tailoring" },
+      { title: "ResumePilot — AI Resume Tailoring" },
       {
         name: "description",
         content:
-          "Tailor your resume to any job description. AI-powered LaTeX output with match scoring and ATS compatibility checks.",
+          "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
       },
-      { property: "og:title", content: "Tailor Resume" },
+      { property: "og:title", content: "ResumePilot — AI Resume Tailoring" },
       {
         property: "og:description",
         content:
-          "Customize your LaTeX resume for any job — with match scoring and ATS compatibility checks.",
+          "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
       },
+      { property: "og:url", content: "https://ai-resumepilot.lovable.app" },
+      { name: "twitter:title", content: "ResumePilot — AI Resume Tailoring" },
+      {
+        name: "twitter:description",
+        content: "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
+      },
+    ],
+    links: [
+      { rel: "canonical", href: "https://ai-resumepilot.lovable.app" },
     ],
   }),
   component: Home,
@@ -35,10 +44,10 @@ function Home() {
         <div className="max-w-4xl mx-auto px-4 py-8 md:py-10">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center text-lg font-bold">
-              TR
+              RP
             </div>
             <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-              Tailor Resume
+              ResumePilot
             </h1>
           </div>
           <p className="text-brand-100 text-sm md:text-base max-w-xl">

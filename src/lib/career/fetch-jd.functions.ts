@@ -47,7 +47,7 @@ export const fetchJobDescription = createServerFn({ method: "POST" })
         redirect: "follow",
         headers: {
           "User-Agent":
-            "Mozilla/5.0 (compatible; TailorResumeBot/1.0; +https://lovable.dev)",
+            "Mozilla/5.0 (compatible; ResumePilotBot/1.0; +https://ai-resumepilot.lovable.app)",
           Accept: "text/html,application/xhtml+xml",
         },
       });
