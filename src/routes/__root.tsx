@@ -83,6 +83,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         name: "description",
         content: "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
       },
+      {
+        name: "google-site-verification",
+        content: "aQtvwFrUtfU0Uf4aZTbLem4Urn1DsObgjldDMh52pHg",
+      },
       { name: "author", content: "ATS Resume Ready" },
       { property: "og:title", content: "ATS Resume Ready — AI Resume Tailoring" },
       {
