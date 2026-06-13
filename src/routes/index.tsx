@@ -6,6 +6,7 @@ import { ProfileTab } from "@/components/tailor/ProfileTab";
 import { JDTab } from "@/components/tailor/JDTab";
 import { ResumeTab } from "@/components/tailor/ResumeTab";
 import { AvailableJobsTab } from "@/components/tailor/AvailableJobsTab";
+import logoAsset from "@/assets/logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,9 +45,13 @@ function Home() {
       <div className="mx-auto grid min-h-[calc(100vh-1.5rem)] max-w-7xl overflow-hidden rounded-3xl border border-sidebar-border bg-card shadow-workspace sm:min-h-[calc(100vh-2.5rem)] lg:grid-cols-[280px_minmax(0,1fr)]">
         <aside className="flex flex-col bg-sidebar px-4 py-5 text-sidebar-foreground sm:px-6 lg:min-h-full lg:py-7">
           <div className="flex items-center gap-3">
-            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-sidebar-primary text-sm font-bold text-sidebar-primary-foreground shadow-logo">
-              RP
-            </div>
+            <img
+              src={logoAsset.url}
+              alt="ResumePilot"
+              className="h-11 w-11 shrink-0 rounded-2xl object-cover shadow-logo"
+              width={44}
+              height={44}
+            />
             <div className="min-w-0">
               <h1 className="truncate font-display text-xl font-semibold tracking-tight">ResumePilot</h1>
               <p className="text-xs text-sidebar-foreground/60">AI career workspace</p>
