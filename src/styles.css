@@ -19,6 +19,8 @@
  */
 
 @theme inline {
+  --font-sans: "Manrope", sans-serif;
+  --font-display: "Sora", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -62,39 +64,39 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
+  --radius: 0.875rem;
+  --background: oklch(0.982 0.008 224);
+  --foreground: oklch(0.24 0.055 240);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
+  --primary: oklch(0.46 0.095 220);
+  --primary-foreground: oklch(0.99 0.004 220);
+  --secondary: oklch(0.94 0.02 220);
   --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --muted: oklch(0.955 0.012 220);
+  --muted-foreground: oklch(0.52 0.035 235);
+  --accent: oklch(0.78 0.095 190);
+  --accent-foreground: oklch(0.31 0.075 220);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --border: oklch(0.9 0.018 220);
+  --input: oklch(0.88 0.025 220);
+  --ring: oklch(0.58 0.105 210);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.984 0.003 247.858);
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-  --sidebar-border: oklch(0.929 0.013 255.508);
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+  --sidebar: oklch(0.975 0.012 220);
+  --sidebar-foreground: oklch(0.29 0.065 235);
+  --sidebar-primary: oklch(0.4 0.1 220);
+  --sidebar-primary-foreground: oklch(0.99 0.004 220);
+  --sidebar-accent: oklch(0.925 0.028 215);
+  --sidebar-accent-foreground: oklch(0.3 0.075 230);
+  --sidebar-border: oklch(0.885 0.025 220);
+  --sidebar-ring: oklch(0.62 0.11 200);
 }
 
 .dark {
@@ -140,66 +142,65 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
   }
 }
 
-/* ========== Tailor Resume design tokens ========== */
+/* ========== ResumePilot workspace tokens ========== */
 @theme {
-  --color-brand-50: #eff6ff;
-  --color-brand-100: #dbeafe;
-  --color-brand-200: #bfdbfe;
-  --color-brand-300: #93c5fd;
-  --color-brand-400: #60a5fa;
-  --color-brand-500: #3b82f6;
-  --color-brand-600: #2563eb;
-  --color-brand-700: #1d4ed8;
-  --color-brand-800: #1e40af;
-  --color-brand-900: #1e3a8a;
-  --color-brand-950: #172554;
+  --color-brand-50: oklch(0.97 0.018 215);
+  --color-brand-100: oklch(0.925 0.035 215);
+  --color-brand-200: oklch(0.85 0.06 210);
+  --color-brand-300: oklch(0.75 0.09 205);
+  --color-brand-400: oklch(0.65 0.11 205);
+  --color-brand-500: oklch(0.55 0.11 215);
+  --color-brand-600: oklch(0.46 0.1 220);
+  --color-brand-700: oklch(0.39 0.09 225);
+  --color-brand-800: oklch(0.31 0.075 230);
+  --color-brand-900: oklch(0.25 0.065 235);
+  --color-brand-950: oklch(0.19 0.05 240);
 
-  --shadow-card: 0 4px 24px -4px rgba(37, 99, 235, 0.12), 0 2px 8px -2px rgba(37, 99, 235, 0.08);
-  --shadow-glow: 0 0 40px -8px rgba(59, 130, 246, 0.45);
-
-  --background-image-page-gradient: linear-gradient(160deg, #eff6ff 0%, #dbeafe 35%, #f0f9ff 70%, #e0f2fe 100%);
-  --background-image-header-gradient: linear-gradient(135deg, #1e40af 0%, #2563eb 50%, #3b82f6 100%);
+  --shadow-card: 0 12px 35px -22px oklch(0.25 0.065 235 / 0.3), 0 1px 3px oklch(0.25 0.065 235 / 0.06);
+  --shadow-workspace: 0 30px 80px -36px oklch(0.25 0.065 235 / 0.28);
+  --shadow-logo: 0 12px 24px -12px oklch(0.39 0.09 225 / 0.6);
+  --background-image-page-gradient: radial-gradient(circle at 85% 8%, oklch(0.88 0.06 195 / 0.45), transparent 28%), linear-gradient(145deg, oklch(0.965 0.018 220), oklch(0.935 0.03 210));
 }
 
 @layer components {
   .tab-btn {
-    @apply px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200;
+    @apply px-2 py-2.5 text-xs font-semibold rounded-xl transition-all duration-200 lg:px-3 lg:py-3 lg:text-sm;
   }
   .tab-btn-active {
-    @apply bg-white text-brand-700 shadow-card ring-2 ring-brand-400/40;
+    @apply bg-sidebar-primary text-sidebar-primary-foreground shadow-card;
   }
   .tab-btn-inactive {
-    @apply text-brand-700/70 hover:bg-white/60 hover:text-brand-800;
+    @apply text-sidebar-foreground/55 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground;
   }
   .tab-btn-done {
-    @apply text-brand-600 bg-brand-50/80;
+    @apply text-sidebar-accent-foreground bg-sidebar-accent/70;
   }
   .card {
-    @apply bg-white/90 backdrop-blur-sm rounded-2xl border border-brand-100 shadow-card p-6 md:p-8;
+    @apply bg-card rounded-3xl border border-border shadow-card p-5 sm:p-7 lg:p-8;
   }
   .card-accent {
-    @apply border-l-4 border-l-brand-500;
+    @apply border-l-4 border-l-primary;
   }
   .input-field {
-    @apply w-full rounded-xl border border-brand-200 bg-white px-4 py-2.5 text-sm text-slate-800
-      placeholder:text-slate-400
-      focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-brand-400
-      transition-shadow;
+    @apply w-full rounded-xl border border-input bg-muted/40 px-4 py-3 text-sm text-foreground
+      placeholder:text-muted-foreground/70 focus:bg-card focus:outline-hidden focus:ring-3 focus:ring-ring/15 focus:border-ring
+      transition-all duration-200;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-brand-600 to-brand-500
-      px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-brand-500/30
-      hover:from-brand-700 hover:to-brand-600 hover:shadow-lg hover:shadow-brand-500/40
+    @apply inline-flex items-center justify-center rounded-xl bg-primary
+      px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-md
+      hover:bg-primary/90 hover:-translate-y-0.5
       disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none
       transition-all duration-200;
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-xl border border-brand-200 bg-white
-      px-5 py-2.5 text-sm font-semibold text-brand-700
-      hover:bg-brand-50 hover:border-brand-300 transition-colors;
+    @apply inline-flex items-center justify-center rounded-xl border border-border bg-card
+      px-5 py-2.5 text-sm font-semibold text-foreground
+      hover:bg-muted hover:border-input transition-colors;
   }
   .score-ring {
     @apply flex h-20 w-20 items-center justify-center rounded-full border-4 text-xl font-bold;
@@ -209,7 +210,7 @@
       bg-brand-600 text-white shadow-sm;
   }
   .tip-box {
-    @apply rounded-xl bg-gradient-to-br from-brand-50 to-blue-50 border border-brand-100 p-4;
+    @apply rounded-2xl bg-muted/70 border border-border p-4;
   }
   .latex-preview {
     @apply text-slate-900;

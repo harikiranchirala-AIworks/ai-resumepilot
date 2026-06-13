@@ -18,7 +18,7 @@ export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
   const activeIndex = TABS.findIndex((t) => t.id === activeTab);
 
   return (
-    <nav className="flex flex-wrap gap-2 p-2 bg-white/70 backdrop-blur rounded-2xl border border-brand-100 shadow-card">
+    <nav aria-label="Resume tailoring steps" className="grid grid-cols-4 gap-1 rounded-2xl bg-sidebar-accent/50 p-1 lg:grid-cols-1 lg:gap-2 lg:bg-transparent lg:p-0">
       {TABS.map((tab, index) => {
         const isActive = activeTab === tab.id;
         const isDone = index < activeIndex;
@@ -28,7 +28,8 @@ export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
             key={tab.id}
             type="button"
             onClick={() => onTabChange(tab.id)}
-            className={`tab-btn flex-1 min-w-[100px] flex items-center justify-center gap-2 ${
+            aria-current={isActive ? "step" : undefined}
+            className={`tab-btn group flex min-w-0 items-center justify-center gap-2 lg:justify-start lg:gap-3 ${
               isActive
                 ? "tab-btn-active"
                 : isDone
@@ -37,11 +38,11 @@ export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
             }`}
           >
             <span
-              className={`step-pill ${isActive ? "ring-2 ring-brand-300 ring-offset-1" : isDone ? "bg-brand-500" : "bg-brand-300"}`}
+              className={`step-pill shrink-0 ${isActive ? "ring-2 ring-sidebar-ring/30 ring-offset-2 ring-offset-sidebar" : isDone ? "bg-accent text-accent-foreground" : "bg-sidebar-accent text-sidebar-foreground/55"}`}
             >
               {tab.step}
             </span>
-            <span className="hidden sm:inline">{tab.label}</span>
+            <span className="hidden min-w-0 truncate text-left lg:block">{tab.label}</span>
           </button>
         );
       })}
