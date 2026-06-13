@@ -12,6 +12,8 @@ const InputSchema = z.object({
   locations: z.array(z.string()).max(10).optional(),
   remoteOnly: z.boolean().optional().default(false),
   minSalary: z.number().min(0).optional(),
+  page: z.number().int().min(1).max(10).optional().default(1),
+  excludeIds: z.array(z.string().max(200)).max(180).optional().default([]),
 });
 
 export interface RankedJob {
@@ -36,6 +38,8 @@ export interface MatchJobsResult {
   totalCollected: number;
   duplicatesRemoved: number;
   sourceStats: Partial<Record<JobSource, number>>;
+  page: number;
+  hasMore: boolean;
 }
 
 const SYSTEM = `You are an expert career advisor and technical recruiter.
@@ -73,8 +77,10 @@ export const matchJobs = createServerFn({ method: "POST" })
         locations: data.locations,
         remoteOnly: data.remoteOnly,
         minSalary: data.minSalary,
+        page: data.page,
       });
-      jobs = aggregated.jobs;
+      const excludedIds = new Set(data.excludeIds);
+      jobs = aggregated.jobs.filter((job) => !excludedIds.has(job.id));
       totalCollected = aggregated.totalCollected;
       duplicatesRemoved = aggregated.duplicatesRemoved;
       sourceStats = aggregated.sourceStats;
@@ -92,6 +98,8 @@ export const matchJobs = createServerFn({ method: "POST" })
         totalCollected: 0,
         duplicatesRemoved: 0,
         sourceStats,
+        page: data.page,
+        hasMore: false,
       };
     }
 
@@ -179,5 +187,7 @@ Pick up to 20 picks ranked by fitment descending (fewer if <20 jobs available). 
       totalCollected,
       duplicatesRemoved,
       sourceStats,
+      page: data.page,
+      hasMore: ranked.length === 20,
     };
   });

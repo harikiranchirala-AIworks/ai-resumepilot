@@ -18,6 +18,7 @@ export interface JobFilters {
   locations?: string[];
   remoteOnly?: boolean;
   minSalary?: number;
+  page?: number;
 }
 
 interface AdzunaApiJob {
@@ -91,11 +92,13 @@ export async function fetchJobs(
       ? filters.locations
       : ["Hyderabad", "Bangalore", "Remote"];
 
-  // Fetch 2 pages per location for a larger pool (~30 per location)
+  // Each result page uses a fresh pair of provider pages so "Next 20" widens the pool.
+  const batchPage = Math.max(1, Math.floor(filters.page ?? 1));
+  const firstProviderPage = (batchPage - 1) * 2 + 1;
   const tasks: Promise<AdzunaJob[]>[] = [];
   for (const loc of locations) {
-    tasks.push(fetchAdzuna(appId, appKey, loc, keywords, 20, 1));
-    tasks.push(fetchAdzuna(appId, appKey, loc, keywords, 20, 2));
+    tasks.push(fetchAdzuna(appId, appKey, loc, keywords, 20, firstProviderPage));
+    tasks.push(fetchAdzuna(appId, appKey, loc, keywords, 20, firstProviderPage + 1));
   }
   const results = await Promise.allSettled(tasks);
 
