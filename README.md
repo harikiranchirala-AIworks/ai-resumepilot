@@ -1,12 +1,12 @@
-# ResumePilot
+# ATS Resume Ready
 
 > AI-powered resume tailoring, job matching, and cover letter generation.
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-ai--resumepilot.lovable.app-blue)](https://ai-resumepilot.lovable.app)
+[![Website](https://img.shields.io/badge/Website-atsresumeready.com-blue)](https://atsresumeready.com)
 
 ## What is this?
 
-ResumePilot helps you customize your resume for any job description. Paste your resume, discover matching jobs, pick one, and generate an ATS-friendly LaTeX resume plus a tailored cover letter — all with honest, AI-assisted content that never fabricates your experience.
+ATS Resume Ready helps you customize your resume for any job description. Paste your resume, discover matching jobs, pick one, and generate an ATS-friendly LaTeX resume plus a tailored cover letter — all with honest, AI-assisted content that never fabricates your experience.
 
 ---
 
