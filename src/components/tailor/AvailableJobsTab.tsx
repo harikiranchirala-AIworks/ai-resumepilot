@@ -15,7 +15,7 @@ interface Props {
 export function AvailableJobsTab({ onBack, onNext }: Props) {
   const matchFn = useServerFn(matchJobs);
   const fetchJdFn = useServerFn(fetchJobDescription);
-  const { profile, setJobDescription } = useAppStore();
+  const { profile, setJobDescription, setSelectedJob } = useAppStore();
   const profileContent = getProfileContent(profile);
 
   const [keywords, setKeywords] = useState("");
@@ -259,6 +259,12 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
                       }
                       const header = `# ${job.title} — ${job.company} (${job.location})\nSource: ${job.url || "Adzuna snippet"}\n\n`;
                       setJobDescription(header + jdText);
+                      setSelectedJob({
+                        title: job.title,
+                        company: job.company,
+                        location: job.location,
+                        url: job.url,
+                      });
                       setPickNote(
                         source === "url"
                           ? "Fetched full JD from the posting."

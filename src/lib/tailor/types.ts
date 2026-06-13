@@ -45,6 +45,13 @@ export interface JDState {
   jobDescription: string;
 }
 
+export interface SelectedJob {
+  title: string;
+  company: string;
+  location: string;
+  url: string;
+}
+
 export interface MatchAnalysis {
   overallScore: number;
   keywordMatch: number;

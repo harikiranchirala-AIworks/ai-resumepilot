@@ -1,161 +1,76 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { ShieldCheck, Sparkles } from "lucide-react";
-import { TabNavigation, type TabId } from "@/components/tailor/TabNavigation";
-import { ProfileTab } from "@/components/tailor/ProfileTab";
-import { JDTab } from "@/components/tailor/JDTab";
-import { ResumeTab } from "@/components/tailor/ResumeTab";
-import { AvailableJobsTab } from "@/components/tailor/AvailableJobsTab";
-import logoAsset from "@/assets/logo.png.asset.json";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, BriefcaseBusiness, FileCheck2, Search, ShieldCheck, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "AI Resume Tailoring & Job Matching | ResumePilot" },
-      {
-        name: "description",
-        content:
-          "Match with relevant jobs and create ATS-friendly resumes and cover letters tailored to each role with ResumePilot's AI career workspace.",
-      },
-      {
-        name: "keywords",
-        content:
-          "AI resume tailoring, ATS resume, job matching, cover letter generator, resume builder",
-      },
-      {
-        property: "og:title",
-        content: "AI Resume Tailoring & Job Matching | ResumePilot",
-      },
-      {
-        property: "og:description",
-        content:
-          "Match with relevant jobs and tailor ATS-friendly resumes and cover letters for every application.",
-      },
+      { name: "description", content: "Find relevant jobs, tailor an honest ATS-ready resume, and share your application for feedback with ResumePilot." },
+      { property: "og:title", content: "AI Resume Tailoring & Job Matching | ResumePilot" },
+      { property: "og:description", content: "Move from job search to a tailored, feedback-ready application in one focused workspace." },
       { property: "og:url", content: "https://ai-resumepilot.lovable.app" },
-      {
-        property: "og:image",
-        content: `https://ai-resumepilot.lovable.app${logoAsset.url}`,
-      },
-      { property: "og:image:alt", content: "ResumePilot logo" },
-      { name: "twitter:card", content: "summary_large_image" },
-      {
-        name: "twitter:title",
-        content: "AI Resume Tailoring & Job Matching | ResumePilot",
-      },
-      {
-        name: "twitter:description",
-        content:
-          "Match with relevant jobs and tailor ATS-friendly resumes and cover letters for every application.",
-      },
-      {
-        name: "twitter:image",
-        content: `https://ai-resumepilot.lovable.app${logoAsset.url}`,
-      },
     ],
     links: [{ rel: "canonical", href: "https://ai-resumepilot.lovable.app" }],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
-          name: "ResumePilot",
-          url: "https://ai-resumepilot.lovable.app",
-          applicationCategory: "BusinessApplication",
-          operatingSystem: "Web",
-          description:
-            "An AI career workspace for job matching, ATS-friendly resume tailoring, and cover letter generation.",
-          offers: {
-            "@type": "Offer",
-            price: "0",
-            priceCurrency: "USD",
-          },
-        }),
-      },
-    ],
   }),
-  component: Home,
+  component: LandingPage,
 });
 
-function Home() {
-  const [activeTab, setActiveTab] = useState<TabId>("profile");
+const steps = [
+  { icon: FileCheck2, label: "Bring your real experience", copy: "Paste your resume or build a structured profile. Your facts remain the source of truth." },
+  { icon: Search, label: "Find roles worth your time", copy: "Search live job feeds and see fitment scores, strengths, and gaps before you apply." },
+  { icon: Sparkles, label: "Tailor, review, share", copy: "Generate an ATS-ready resume, inspect every change, and invite trusted feedback." },
+];
 
+function LandingPage() {
   return (
-    <main className="min-h-screen bg-page-gradient p-3 sm:p-5 lg:p-8">
-      <div className="mx-auto grid min-h-[calc(100vh-1.5rem)] max-w-7xl overflow-hidden rounded-3xl border border-sidebar-border bg-card shadow-workspace sm:min-h-[calc(100vh-2.5rem)] lg:grid-cols-[280px_minmax(0,1fr)]">
-        <aside className="flex flex-col bg-sidebar px-4 py-5 text-sidebar-foreground sm:px-6 lg:min-h-full lg:py-7">
-          <div className="flex items-center gap-3">
-            <img
-              src={logoAsset.url}
-              alt="ResumePilot"
-              className="h-11 w-11 shrink-0 rounded-2xl object-cover shadow-logo"
-              width={44}
-              height={44}
-            />
-            <div className="min-w-0">
-              <h1 className="truncate font-display text-xl font-semibold tracking-tight">
-                ResumePilot
-              </h1>
-              <p className="text-xs text-sidebar-foreground/60">AI career workspace</p>
+    <div className="min-h-screen bg-background text-foreground">
+      <SiteHeader />
+      <main>
+        <section className="overflow-hidden border-b border-border bg-page-gradient">
+          <div className="mx-auto grid max-w-7xl gap-14 px-5 py-20 lg:grid-cols-[1.05fr_.95fr] lg:px-8 lg:py-28">
+            <div className="flex flex-col justify-center">
+              <p className="mb-5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary"><ShieldCheck className="h-4 w-4" /> Honest AI application studio</p>
+              <h1 className="max-w-3xl font-display text-5xl font-semibold leading-[1.06] tracking-[-0.04em] text-foreground sm:text-6xl">A stronger application, without rewriting who you are.</h1>
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">ResumePilot connects job discovery, fit analysis, resume tailoring, and mentor feedback in one calm workspace.</p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button asChild size="lg"><Link to="/workspace">Start tailoring <ArrowRight /></Link></Button>
+                <Button asChild size="lg" variant="outline"><Link to="/how-it-works">See how it works</Link></Button>
+              </div>
+              <p className="mt-5 text-xs font-medium text-muted-foreground">No invented qualifications. Reviewable output. You stay in control.</p>
             </div>
-          </div>
 
-          <div className="mt-7 hidden lg:block">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-sidebar-foreground/45">
-              Your workflow
-            </p>
-          </div>
-          <div className="mt-4 lg:flex-1">
-            <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
-          </div>
-
-          <div className="mt-6 hidden rounded-2xl border border-sidebar-border bg-sidebar-accent/45 p-4 lg:block">
-            <Sparkles className="h-4 w-4 text-sidebar-primary" />
-            <p className="mt-3 text-sm font-semibold">Built for honest tailoring</p>
-            <p className="mt-1 text-xs leading-relaxed text-sidebar-foreground/60">
-              ResumePilot reframes your real experience—it never invents qualifications.
-            </p>
-          </div>
-        </aside>
-
-        <section className="min-w-0 bg-background">
-          <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-border px-5 py-5 sm:px-8 lg:px-10 lg:py-7">
-            <div className="min-w-0">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
-                Application studio
-              </p>
-              <h2 className="mt-1 truncate font-display text-xl font-semibold text-foreground sm:text-2xl">
-                Build your strongest application
-              </h2>
+            <div className="relative min-h-[430px] rounded-[2rem] border border-border bg-card p-5 shadow-workspace sm:p-7">
+              <div className="flex items-center justify-between border-b border-border pb-5">
+                <div><p className="text-xs font-bold uppercase tracking-wider text-primary">Application studio</p><p className="mt-1 font-display text-lg font-semibold">Senior Product Manager</p></div>
+                <span className="rounded-full bg-secondary px-3 py-1 text-xs font-bold text-secondary-foreground">82% match</span>
+              </div>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                {steps.map(({ icon: Icon, label }, index) => (
+                  <div key={label} className={`rounded-2xl border border-border p-4 ${index === 2 ? "bg-primary text-primary-foreground sm:col-span-2" : "bg-muted/45"}`}>
+                    <Icon className="h-5 w-5" /><p className="mt-7 text-xs font-bold uppercase tracking-wider opacity-70">Step {index + 1}</p><p className="mt-1 font-semibold">{label}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 rounded-2xl border border-border bg-background p-4">
+                <div className="flex items-center gap-3"><BriefcaseBusiness className="h-5 w-5 text-primary" /><div><p className="text-sm font-semibold">Feedback link ready</p><p className="text-xs text-muted-foreground">Share the job and tailored preview—not your source profile.</p></div></div>
+              </div>
             </div>
-            <div className="hidden shrink-0 items-center gap-2 rounded-full border border-border bg-card px-3 py-2 text-xs font-medium text-muted-foreground sm:flex">
-              <ShieldCheck className="h-4 w-4 text-accent-foreground" />
-              Private workspace
-            </div>
-          </header>
-
-          <div
-            className="animate-fade-in px-4 py-5 sm:px-8 sm:py-8 lg:px-10 lg:py-10"
-            key={activeTab}
-          >
-            {activeTab === "profile" && <ProfileTab onNext={() => setActiveTab("jobs")} />}
-            {activeTab === "jobs" && (
-              <AvailableJobsTab
-                onBack={() => setActiveTab("profile")}
-                onNext={() => setActiveTab("jd")}
-              />
-            )}
-            {activeTab === "jd" && (
-              <JDTab onBack={() => setActiveTab("jobs")} onNext={() => setActiveTab("resume")} />
-            )}
-            {activeTab === "resume" && <ResumeTab onBack={() => setActiveTab("jd")} />}
-
-            <footer className="pb-2 pt-8 text-center text-xs text-muted-foreground">
-              Review generated content before submitting. Never misrepresent your qualifications.
-            </footer>
           </div>
         </section>
-      </div>
-    </main>
+
+        <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+          <div className="max-w-2xl"><p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">One connected workflow</p><h2 className="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-4xl">From “maybe” to application-ready.</h2></div>
+          <div className="mt-10 grid gap-px overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-3">
+            {steps.map(({ icon: Icon, label, copy }, index) => <article key={label} className="bg-background p-7"><span className="text-xs font-bold text-muted-foreground">0{index + 1}</span><Icon className="mt-8 h-6 w-6 text-primary" /><h3 className="mt-4 font-display text-lg font-semibold">{label}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{copy}</p></article>)}
+          </div>
+        </section>
+
+        <section className="border-y border-border bg-primary text-primary-foreground"><div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 py-14 sm:flex-row sm:items-center sm:justify-between lg:px-8"><div><p className="text-xs font-bold uppercase tracking-[0.2em] opacity-70">Your next application</p><h2 className="mt-2 font-display text-3xl font-semibold">Make it specific. Keep it truthful.</h2></div><Button asChild size="lg" variant="secondary"><Link to="/workspace">Open ResumePilot <ArrowRight /></Link></Button></div></section>
+      </main>
+      <SiteFooter />
+    </div>
   );
 }

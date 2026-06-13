@@ -9,7 +9,7 @@ interface JDTabProps {
 }
 
 export function JDTab({ onBack, onNext }: JDTabProps) {
-  const { jd, setJobDescription } = useAppStore();
+  const { jd, setJobDescription, setSelectedJob } = useAppStore();
   const canNext = canProceedFromJD(jd);
 
   return (
@@ -38,7 +38,10 @@ export function JDTab({ onBack, onNext }: JDTabProps) {
           className="input-field text-sm leading-relaxed"
           placeholder="Paste the complete job description — responsibilities, requirements, qualifications, nice-to-haves..."
           value={jd.jobDescription}
-          onChange={(e) => setJobDescription(e.target.value)}
+          onChange={(e) => {
+            setJobDescription(e.target.value);
+            setSelectedJob(null);
+          }}
         />
         <p className="mt-1.5 text-xs text-slate-500">
           {jd.jobDescription.length} characters

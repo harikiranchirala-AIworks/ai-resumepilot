@@ -64,9 +64,7 @@ Return JSON in exactly this shape:
       text = out.text;
     } catch (err) {
       console.error("[parseResume] AI failed:", err);
-      throw new Error(
-        `Resume parsing failed: ${err instanceof Error ? err.message : String(err)}`,
-      );
+      throw new Error("Resume parsing is temporarily unavailable. Please try again.");
     }
 
     let parsed: Partial<ParsedProfile>;

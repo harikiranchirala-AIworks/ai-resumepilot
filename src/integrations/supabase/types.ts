@@ -14,7 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      resume_shares: {
+        Row: {
+          company: string
+          created_at: string
+          expires_at: string
+          id: string
+          job_summary: string
+          job_title: string
+          job_url: string | null
+          location: string
+          tailored_result: Json
+        }
+        Insert: {
+          company: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          job_summary: string
+          job_title: string
+          job_url?: string | null
+          location?: string
+          tailored_result: Json
+        }
+        Update: {
+          company?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          job_summary?: string
+          job_title?: string
+          job_url?: string | null
+          location?: string
+          tailored_result?: Json
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

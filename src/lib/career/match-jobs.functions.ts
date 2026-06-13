@@ -80,9 +80,7 @@ export const matchJobs = createServerFn({ method: "POST" })
       sourceStats = aggregated.sourceStats;
     } catch (err) {
       console.error("[matchJobs] fetchJobs failed:", err);
-      throw new Error(
-        `Couldn't load jobs: ${err instanceof Error ? err.message : String(err)}`,
-      );
+      throw new Error("Job search is temporarily unavailable. Please try again.");
     }
     console.log(`[matchJobs] collected ${totalCollected} jobs; ${jobs.length} after deduplication`);
     if (jobs.length === 0) {
@@ -140,9 +138,7 @@ Pick up to 20 picks ranked by fitment descending (fewer if <20 jobs available). 
       text = out.text;
     } catch (err) {
       console.error("[matchJobs] AI gateway failed:", err);
-      throw new Error(
-        `AI ranking failed: ${err instanceof Error ? err.message : String(err)}`,
-      );
+      throw new Error("Job ranking is temporarily unavailable. Please try again.");
     }
 
     let parsed: AIResponse;
