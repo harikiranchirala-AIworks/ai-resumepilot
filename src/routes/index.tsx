@@ -11,27 +11,61 @@ import logoAsset from "@/assets/logo.png.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "ResumePilot — AI Resume Tailoring" },
+      { title: "AI Resume Tailoring & Job Matching | ResumePilot" },
       {
         name: "description",
         content:
-          "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
+          "Match with relevant jobs and create ATS-friendly resumes and cover letters tailored to each role with ResumePilot's AI career workspace.",
       },
-      { property: "og:title", content: "ResumePilot — AI Resume Tailoring" },
+      {
+        name: "keywords",
+        content: "AI resume tailoring, ATS resume, job matching, cover letter generator, resume builder",
+      },
+      { property: "og:title", content: "AI Resume Tailoring & Job Matching | ResumePilot" },
       {
         property: "og:description",
         content:
-          "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
+          "Match with relevant jobs and tailor ATS-friendly resumes and cover letters for every application.",
       },
       { property: "og:url", content: "https://ai-resumepilot.lovable.app" },
-      { name: "twitter:title", content: "ResumePilot — AI Resume Tailoring" },
+      {
+        property: "og:image",
+        content: `https://ai-resumepilot.lovable.app${logoAsset.url}`,
+      },
+      { property: "og:image:alt", content: "ResumePilot logo" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "AI Resume Tailoring & Job Matching | ResumePilot" },
       {
         name: "twitter:description",
-        content: "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
+        content: "Match with relevant jobs and tailor ATS-friendly resumes and cover letters for every application.",
+      },
+      {
+        name: "twitter:image",
+        content: `https://ai-resumepilot.lovable.app${logoAsset.url}`,
       },
     ],
     links: [
       { rel: "canonical", href: "https://ai-resumepilot.lovable.app" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "ResumePilot",
+          url: "https://ai-resumepilot.lovable.app",
+          applicationCategory: "BusinessApplication",
+          operatingSystem: "Web",
+          description:
+            "An AI career workspace for job matching, ATS-friendly resume tailoring, and cover letter generation.",
+          offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "USD",
+          },
+        }),
+      },
     ],
   }),
   component: Home,
