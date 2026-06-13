@@ -70,7 +70,7 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
           </p>
           <h2 className="text-xl font-bold text-brand-900">Available Jobs</h2>
           <p className="mt-1 text-sm text-slate-600">
-            We&apos;ll read your profile, pull live jobs, then AI picks your top 20 with fitment %.
+            We&apos;ll scan Adzuna and public job feeds, remove duplicate listings, then AI picks your top 20 with fitment %.
           </p>
         </div>
 
