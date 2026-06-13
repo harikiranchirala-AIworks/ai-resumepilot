@@ -8,6 +8,7 @@ interface ResumePdfPreviewProps {
   latex: string;
   summary: string;
   highlights: string[];
+  onLatexChange: (latex: string) => void;
 }
 
 function downloadBlob(blob: Blob, filename: string) {
@@ -159,6 +160,7 @@ export function ResumePdfPreview({
   latex,
   summary,
   highlights,
+  onLatexChange,
 }: ResumePdfPreviewProps) {
   const [mode, setMode] = useState<PreviewMode>("formatted");
   const formattedHtml = renderResumeHtml(latex);
@@ -218,9 +220,19 @@ export function ResumePdfPreview({
       )}
 
       {mode === "source" && (
-        <pre className="rounded-xl bg-brand-950 text-brand-100 p-4 text-xs overflow-x-auto max-h-[min(80vh,720px)] overflow-y-auto font-mono leading-relaxed border border-brand-800">
-          {latex}
-        </pre>
+        <div className="space-y-2">
+          <label htmlFor="latex-editor" className="text-xs font-semibold text-brand-800">
+            Editable LaTeX
+          </label>
+          <textarea
+            id="latex-editor"
+            value={latex}
+            onChange={(event) => onLatexChange(event.target.value)}
+            spellCheck={false}
+            className="min-h-[520px] w-full resize-y rounded-xl border border-brand-800 bg-brand-950 p-4 font-mono text-xs leading-relaxed text-brand-100 focus:outline-none focus:ring-2 focus:ring-brand-400"
+          />
+          <p className="text-xs text-slate-500">Changes update the formatted preview and downloaded file.</p>
+        </div>
       )}
     </div>
   );

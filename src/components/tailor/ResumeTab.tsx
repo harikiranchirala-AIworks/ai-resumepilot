@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useAppStore, canGenerate, getProfileContent } from "@/lib/tailor/store";
 import { generateResume } from "@/lib/tailor/generate-resume.functions";
+import { generateCoverLetter } from "@/lib/tailor/generate-cover-letter.functions";
 import { ScoreBadge } from "./ScoreBadge";
 import { TabActions } from "./TabActions";
 import { ResumePdfPreview } from "./ResumePdfPreview";
@@ -13,6 +14,9 @@ interface ResumeTabProps {
 }
 
 export function ResumeTab({ onBack }: ResumeTabProps) {
+  const [coverLetter, setCoverLetter] = useState("");
+  const [isGeneratingLetter, setIsGeneratingLetter] = useState(false);
+  const [coverLetterError, setCoverLetterError] = useState<string | null>(null);
   const {
     profile,
     jd,
@@ -25,6 +29,7 @@ export function ResumeTab({ onBack }: ResumeTabProps) {
   } = useAppStore();
 
   const generateFn = useServerFn(generateResume);
+  const generateCoverLetterFn = useServerFn(generateCoverLetter);
 
   const handleGenerate = useCallback(async () => {
     if (!canGenerate(profile, jd)) return;
@@ -47,6 +52,37 @@ export function ResumeTab({ onBack }: ResumeTabProps) {
       setIsGenerating(false);
     }
   }, [profile, jd, generateFn, setResult, setIsGenerating, setError]);
+
+  const handleGenerateCoverLetter = useCallback(async () => {
+    if (!canGenerate(profile, jd)) return;
+    setIsGeneratingLetter(true);
+    setCoverLetterError(null);
+    try {
+      const data = await generateCoverLetterFn({
+        data: {
+          profileContent: getProfileContent(profile),
+          jobDescription: jd.jobDescription,
+        },
+      });
+      setCoverLetter(data.coverLetter);
+    } catch (err) {
+      setCoverLetterError(err instanceof Error ? err.message : "Could not generate the cover letter");
+    } finally {
+      setIsGeneratingLetter(false);
+    }
+  }, [profile, jd, generateCoverLetterFn]);
+
+  const handleLatexChange = useCallback(
+    (latex: string) => {
+      if (!result) return;
+      setResult({ ...result, resume: { ...result.resume, latex } });
+    },
+    [result, setResult],
+  );
+
+  const copyCoverLetter = useCallback(async () => {
+    await navigator.clipboard.writeText(coverLetter);
+  }, [coverLetter]);
 
   const ready = canGenerate(profile, jd);
 
@@ -187,7 +223,57 @@ export function ResumeTab({ onBack }: ResumeTabProps) {
             latex={result.resume.latex}
             summary={result.resume.summary}
             highlights={result.resume.tailoredHighlights}
+            onLatexChange={handleLatexChange}
           />
+
+          <div className="card space-y-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <h3 className="text-sm font-bold text-brand-900">Tailored Cover Letter</h3>
+                <p className="mt-1 text-xs text-slate-600">
+                  Create an honest, role-specific letter from your profile and this job description.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {coverLetter && (
+                  <button type="button" className="btn-secondary text-xs" onClick={copyCoverLetter}>
+                    Copy letter
+                  </button>
+                )}
+                <button
+                  type="button"
+                  className="btn-primary text-xs"
+                  onClick={handleGenerateCoverLetter}
+                  disabled={isGeneratingLetter}
+                >
+                  {isGeneratingLetter
+                    ? "Writing…"
+                    : coverLetter
+                      ? "Regenerate"
+                      : "Generate Cover Letter"}
+                </button>
+              </div>
+            </div>
+
+            {coverLetterError && (
+              <p className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-800">
+                {coverLetterError}
+              </p>
+            )}
+
+            {coverLetter ? (
+              <textarea
+                aria-label="Editable cover letter"
+                value={coverLetter}
+                onChange={(event) => setCoverLetter(event.target.value)}
+                className="input-field min-h-[360px] resize-y leading-relaxed"
+              />
+            ) : (
+              <div className="rounded-xl border border-dashed border-brand-200 bg-brand-50/50 px-5 py-8 text-center text-sm text-slate-500">
+                Generate a cover letter after reviewing your tailored resume.
+              </div>
+            )}
+          </div>
         </>
       )}
     </div>
