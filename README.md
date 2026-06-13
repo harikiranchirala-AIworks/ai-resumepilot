@@ -1,10 +1,10 @@
-# Tailor Resume — V2
+# ResumePilot — V2
 
 > AI-powered resume tailoring, job matching, and cover letter generation.
 
 ## What is this?
 
-Tailor Resume helps you customize your resume for any job description. Paste your resume, discover matching jobs, pick one, and generate an ATS-friendly LaTeX resume plus a tailored cover letter — all with honest, AI-assisted content that never fabricates your experience.
+ResumePilot helps you customize your resume for any job description. Paste your resume, discover matching jobs, pick one, and generate an ATS-friendly LaTeX resume plus a tailored cover letter — all with honest, AI-assisted content that never fabricates your experience.
 
 ---
 
