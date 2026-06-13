@@ -51,7 +51,7 @@ ResumePilot helps you customize your resume for any job description. Paste your 
 2. Click **Analyze my resume**.
 3. Review the parsed fields (skills, experience, education, etc.).
 4. Edit anything that looks off — this is your source of truth for the rest of the app.
-5. Click **Next**.
+5. Click **Find jobs →**.
 
 ### Step 2 — Available Jobs
 1. Enter one or more locations (comma-separated), e.g. `Hyderabad, Bangalore, Remote`.
