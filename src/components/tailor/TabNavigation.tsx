@@ -39,7 +39,7 @@ export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
             }`}
           >
             <span
-              className={`step-pill shrink-0 ${isActive ? "ring-2 ring-sidebar-ring/30 ring-offset-2 ring-offset-sidebar" : isDone ? "bg-accent text-accent-foreground" : "bg-sidebar-accent text-sidebar-foreground/55"}`}
+              className={`step-pill shrink-0 ${isActive ? "ring-2 ring-sidebar-ring/30 ring-offset-2 ring-offset-sidebar" : isDone ? "bg-accent text-accent-foreground" : "bg-sidebar-accent text-sidebar-foreground"}`}
             >
               {tab.step}
             </span>

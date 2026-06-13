@@ -15,6 +15,7 @@ import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShareShareIdRouteImport } from './routes/share.$shareId'
+import { Route as BlogCanAiTailorMyResumeRouteImport } from './routes/blog_.can-ai-tailor-my-resume'
 
 const WorkspaceRoute = WorkspaceRouteImport.update({
   id: '/workspace',
@@ -46,6 +47,11 @@ const ShareShareIdRoute = ShareShareIdRouteImport.update({
   path: '/share/$shareId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogCanAiTailorMyResumeRoute = BlogCanAiTailorMyResumeRouteImport.update({
+  id: '/blog_/can-ai-tailor-my-resume',
+  path: '/blog/can-ai-tailor-my-resume',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/how-it-works': typeof HowItWorksRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/workspace': typeof WorkspaceRoute
+  '/blog/can-ai-tailor-my-resume': typeof BlogCanAiTailorMyResumeRoute
   '/share/$shareId': typeof ShareShareIdRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/how-it-works': typeof HowItWorksRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/workspace': typeof WorkspaceRoute
+  '/blog/can-ai-tailor-my-resume': typeof BlogCanAiTailorMyResumeRoute
   '/share/$shareId': typeof ShareShareIdRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/how-it-works': typeof HowItWorksRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/workspace': typeof WorkspaceRoute
+  '/blog_/can-ai-tailor-my-resume': typeof BlogCanAiTailorMyResumeRoute
   '/share/$shareId': typeof ShareShareIdRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/sitemap.xml'
     | '/workspace'
+    | '/blog/can-ai-tailor-my-resume'
     | '/share/$shareId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/sitemap.xml'
     | '/workspace'
+    | '/blog/can-ai-tailor-my-resume'
     | '/share/$shareId'
   id:
     | '__root__'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/sitemap.xml'
     | '/workspace'
+    | '/blog_/can-ai-tailor-my-resume'
     | '/share/$shareId'
   fileRoutesById: FileRoutesById
 }
@@ -105,6 +117,7 @@ export interface RootRouteChildren {
   HowItWorksRoute: typeof HowItWorksRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   WorkspaceRoute: typeof WorkspaceRoute
+  BlogCanAiTailorMyResumeRoute: typeof BlogCanAiTailorMyResumeRoute
   ShareShareIdRoute: typeof ShareShareIdRoute
 }
 
@@ -152,6 +165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShareShareIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog_/can-ai-tailor-my-resume': {
+      id: '/blog_/can-ai-tailor-my-resume'
+      path: '/blog/can-ai-tailor-my-resume'
+      fullPath: '/blog/can-ai-tailor-my-resume'
+      preLoaderRoute: typeof BlogCanAiTailorMyResumeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -161,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   HowItWorksRoute: HowItWorksRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   WorkspaceRoute: WorkspaceRoute,
+  BlogCanAiTailorMyResumeRoute: BlogCanAiTailorMyResumeRoute,
   ShareShareIdRoute: ShareShareIdRoute,
 }
 export const routeTree = rootRouteImport

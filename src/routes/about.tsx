@@ -10,8 +10,8 @@ export const Route = createFileRoute("/about")({
     { name: "description", content: "Learn why ATS Resume Ready builds AI career tools around honest tailoring, human review, and candidate control." },
     { property: "og:title", content: "About ATS Resume Ready | Honest Career AI" },
     { property: "og:description", content: "Career tools should sharpen your story without manufacturing it." },
-    { property: "og:url", content: "https://atsresumeready.com/about" },
-  ], links: [{ rel: "canonical", href: "https://atsresumeready.com/about" }] }),
+    { property: "og:url", content: "https://atsresumeready.lovable.app/about" },
+  ], links: [{ rel: "canonical", href: "https://atsresumeready.lovable.app/about" }] }),
   component: AboutPage,
 });
 

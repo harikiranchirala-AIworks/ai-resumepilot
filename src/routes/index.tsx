@@ -11,9 +11,9 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Find relevant jobs, tailor an honest ATS-ready resume, and share your application for feedback with ATS Resume Ready." },
       { property: "og:title", content: "AI Resume Tailoring | ATS Resume Ready" },
       { property: "og:description", content: "Move from job search to a tailored, feedback-ready application in one focused workspace." },
-      { property: "og:url", content: "https://atsresumeready.com" },
+      { property: "og:url", content: "https://atsresumeready.lovable.app/" },
     ],
-    links: [{ rel: "canonical", href: "https://atsresumeready.com" }],
+    links: [{ rel: "canonical", href: "https://atsresumeready.lovable.app/" }],
   }),
   component: LandingPage,
 });
@@ -50,7 +50,7 @@ function LandingPage() {
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
                 {steps.map(({ icon: Icon, label }, index) => (
                   <div key={label} className={`rounded-2xl border border-border p-4 ${index === 2 ? "bg-primary text-primary-foreground sm:col-span-2" : "bg-muted/45"}`}>
-                    <Icon className="h-5 w-5" /><p className="mt-7 text-xs font-bold uppercase tracking-wider opacity-70">Step {index + 1}</p><p className="mt-1 font-semibold">{label}</p>
+                    <Icon className="h-5 w-5" /><p className="mt-7 text-xs font-bold uppercase tracking-wider">Step {index + 1}</p><p className="mt-1 font-semibold">{label}</p>
                   </div>
                 ))}
               </div>
@@ -68,7 +68,7 @@ function LandingPage() {
           </div>
         </section>
 
-        <section className="border-y border-border bg-primary text-primary-foreground"><div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 py-14 sm:flex-row sm:items-center sm:justify-between lg:px-8"><div><p className="text-xs font-bold uppercase tracking-[0.2em] opacity-70">Your next application</p><h2 className="mt-2 font-display text-3xl font-semibold">Make it specific. Keep it truthful.</h2></div><Button asChild size="lg" variant="secondary"><Link to="/workspace">Open ATS Resume Ready <ArrowRight /></Link></Button></div></section>
+        <section className="border-y border-border bg-primary text-primary-foreground"><div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 py-14 sm:flex-row sm:items-center sm:justify-between lg:px-8"><div><p className="text-xs font-bold uppercase tracking-[0.2em]">Your next application</p><h2 className="mt-2 font-display text-3xl font-semibold">Make it specific. Keep it truthful.</h2></div><Button asChild size="lg" variant="secondary"><Link to="/workspace">Open ATS Resume Ready <ArrowRight /></Link></Button></div></section>
       </main>
       <SiteFooter />
     </div>
