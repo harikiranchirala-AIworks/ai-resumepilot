@@ -186,7 +186,7 @@ export function AvailableJobsTab({ onBack, onNext }: Props) {
               onClick={onNext}
               className="text-sm text-brand-600 hover:text-brand-800 font-medium"
             >
-              Next →
+              Paste job description →
             </button>
           </div>
         </div>

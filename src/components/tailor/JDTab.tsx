@@ -68,6 +68,7 @@ export function JDTab({ onBack, onNext }: JDTabProps) {
         onBack={onBack}
         onNext={onNext}
         nextDisabled={!canNext}
+        nextLabel="Tailor resume"
       />
     </div>
   );

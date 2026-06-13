@@ -134,7 +134,7 @@ export function ProfileTab({ onNext }: ProfileTabProps) {
           />
         )}
 
-        <TabActions onNext={onNext} nextDisabled={!canNext} />
+        <TabActions onNext={onNext} nextDisabled={!canNext} nextLabel="Find jobs" />
       </div>
     </div>
   );
