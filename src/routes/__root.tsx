@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import logoAsset from "../assets/logo.png.asset.json";
 
 function NotFoundComponent() {
   return (
@@ -78,17 +79,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "ResumePilot — AI Resume Tailoring" },
-      { name: "description", content: "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI." },
+      {
+        name: "description",
+        content: "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
+      },
       { name: "author", content: "ResumePilot" },
       { property: "og:title", content: "ResumePilot — AI Resume Tailoring" },
-      { property: "og:description", content: "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI." },
+      {
+        property: "og:description",
+        content: "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "ResumePilot" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:title", content: "ResumePilot — AI Resume Tailoring" },
-      { name: "twitter:description", content: "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI." },
+      {
+        name: "twitter:description",
+        content: "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
+      },
     ],
     links: [
+      { rel: "icon", type: "image/png", href: logoAsset.url },
+      { rel: "apple-touch-icon", href: logoAsset.url },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -98,6 +110,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: appCss,
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "ResumePilot",
+          url: "https://ai-resumepilot.lovable.app",
+          description:
+            "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
+        }),
       },
     ],
   }),

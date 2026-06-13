@@ -11,27 +11,67 @@ import logoAsset from "@/assets/logo.png.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "ResumePilot — AI Resume Tailoring" },
+      { title: "AI Resume Tailoring & Job Matching | ResumePilot" },
       {
         name: "description",
         content:
-          "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
+          "Match with relevant jobs and create ATS-friendly resumes and cover letters tailored to each role with ResumePilot's AI career workspace.",
       },
-      { property: "og:title", content: "ResumePilot — AI Resume Tailoring" },
+      {
+        name: "keywords",
+        content:
+          "AI resume tailoring, ATS resume, job matching, cover letter generator, resume builder",
+      },
+      {
+        property: "og:title",
+        content: "AI Resume Tailoring & Job Matching | ResumePilot",
+      },
       {
         property: "og:description",
         content:
-          "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
+          "Match with relevant jobs and tailor ATS-friendly resumes and cover letters for every application.",
       },
       { property: "og:url", content: "https://ai-resumepilot.lovable.app" },
-      { name: "twitter:title", content: "ResumePilot — AI Resume Tailoring" },
+      {
+        property: "og:image",
+        content: `https://ai-resumepilot.lovable.app${logoAsset.url}`,
+      },
+      { property: "og:image:alt", content: "ResumePilot logo" },
+      { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:title",
+        content: "AI Resume Tailoring & Job Matching | ResumePilot",
+      },
       {
         name: "twitter:description",
-        content: "Find matching jobs and tailor ATS-friendly resumes and cover letters with AI.",
+        content:
+          "Match with relevant jobs and tailor ATS-friendly resumes and cover letters for every application.",
+      },
+      {
+        name: "twitter:image",
+        content: `https://ai-resumepilot.lovable.app${logoAsset.url}`,
       },
     ],
-    links: [
-      { rel: "canonical", href: "https://ai-resumepilot.lovable.app" },
+    links: [{ rel: "canonical", href: "https://ai-resumepilot.lovable.app" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: "ResumePilot",
+          url: "https://ai-resumepilot.lovable.app",
+          applicationCategory: "BusinessApplication",
+          operatingSystem: "Web",
+          description:
+            "An AI career workspace for job matching, ATS-friendly resume tailoring, and cover letter generation.",
+          offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "USD",
+          },
+        }),
+      },
     ],
   }),
   component: Home,
@@ -53,13 +93,17 @@ function Home() {
               height={44}
             />
             <div className="min-w-0">
-              <h1 className="truncate font-display text-xl font-semibold tracking-tight">ResumePilot</h1>
+              <h1 className="truncate font-display text-xl font-semibold tracking-tight">
+                ResumePilot
+              </h1>
               <p className="text-xs text-sidebar-foreground/60">AI career workspace</p>
             </div>
           </div>
 
           <div className="mt-7 hidden lg:block">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-sidebar-foreground/45">Your workflow</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-sidebar-foreground/45">
+              Your workflow
+            </p>
           </div>
           <div className="mt-4 lg:flex-1">
             <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
@@ -77,7 +121,9 @@ function Home() {
         <section className="min-w-0 bg-background">
           <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-border px-5 py-5 sm:px-8 lg:px-10 lg:py-7">
             <div className="min-w-0">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">Application studio</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                Application studio
+              </p>
               <h2 className="mt-1 truncate font-display text-xl font-semibold text-foreground sm:text-2xl">
                 Build your strongest application
               </h2>
@@ -88,10 +134,16 @@ function Home() {
             </div>
           </header>
 
-          <div className="animate-fade-in px-4 py-5 sm:px-8 sm:py-8 lg:px-10 lg:py-10" key={activeTab}>
+          <div
+            className="animate-fade-in px-4 py-5 sm:px-8 sm:py-8 lg:px-10 lg:py-10"
+            key={activeTab}
+          >
             {activeTab === "profile" && <ProfileTab onNext={() => setActiveTab("jobs")} />}
             {activeTab === "jobs" && (
-              <AvailableJobsTab onBack={() => setActiveTab("profile")} onNext={() => setActiveTab("jd")} />
+              <AvailableJobsTab
+                onBack={() => setActiveTab("profile")}
+                onNext={() => setActiveTab("jd")}
+              />
             )}
             {activeTab === "jd" && (
               <JDTab onBack={() => setActiveTab("jobs")} onNext={() => setActiveTab("resume")} />
