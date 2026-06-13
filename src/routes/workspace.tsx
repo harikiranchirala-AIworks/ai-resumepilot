@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Home, ShieldCheck, Sparkles } from "lucide-react";
+import { Home as HomeIcon, ShieldCheck, Sparkles } from "lucide-react";
 import { TabNavigation, type TabId } from "@/components/tailor/TabNavigation";
 import { ProfileTab } from "@/components/tailor/ProfileTab";
 import { JDTab } from "@/components/tailor/JDTab";
@@ -136,7 +136,7 @@ function Home() {
               </div>
               <ThemeToggle />
               <Link to="/" className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground" aria-label="Back to home">
-                <Home className="h-4 w-4" />
+                <HomeIcon className="h-4 w-4" />
               </Link>
             </div>
           </header>
