@@ -141,7 +141,7 @@ function RootShell({ children }: { children: ReactNode }) {
       <body>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('ats-resume-ready-theme')||localStorage.getItem('resumepilot-theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',d)}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('ats-resume-ready-theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('dark',d)}catch(e){}})();`,
           }}
         />
         {children}
