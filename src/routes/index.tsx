@@ -19,9 +19,13 @@ export const Route = createFileRoute("/")({
       },
       {
         name: "keywords",
-        content: "AI resume tailoring, ATS resume, job matching, cover letter generator, resume builder",
+        content:
+          "AI resume tailoring, ATS resume, job matching, cover letter generator, resume builder",
       },
-      { property: "og:title", content: "AI Resume Tailoring & Job Matching | ResumePilot" },
+      {
+        property: "og:title",
+        content: "AI Resume Tailoring & Job Matching | ResumePilot",
+      },
       {
         property: "og:description",
         content:
@@ -34,19 +38,21 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:image:alt", content: "ResumePilot logo" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "AI Resume Tailoring & Job Matching | ResumePilot" },
+      {
+        name: "twitter:title",
+        content: "AI Resume Tailoring & Job Matching | ResumePilot",
+      },
       {
         name: "twitter:description",
-        content: "Match with relevant jobs and tailor ATS-friendly resumes and cover letters for every application.",
+        content:
+          "Match with relevant jobs and tailor ATS-friendly resumes and cover letters for every application.",
       },
       {
         name: "twitter:image",
         content: `https://ai-resumepilot.lovable.app${logoAsset.url}`,
       },
     ],
-    links: [
-      { rel: "canonical", href: "https://ai-resumepilot.lovable.app" },
-    ],
+    links: [{ rel: "canonical", href: "https://ai-resumepilot.lovable.app" }],
     scripts: [
       {
         type: "application/ld+json",
@@ -87,13 +93,17 @@ function Home() {
               height={44}
             />
             <div className="min-w-0">
-              <h1 className="truncate font-display text-xl font-semibold tracking-tight">ResumePilot</h1>
+              <h1 className="truncate font-display text-xl font-semibold tracking-tight">
+                ResumePilot
+              </h1>
               <p className="text-xs text-sidebar-foreground/60">AI career workspace</p>
             </div>
           </div>
 
           <div className="mt-7 hidden lg:block">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-sidebar-foreground/45">Your workflow</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-sidebar-foreground/45">
+              Your workflow
+            </p>
           </div>
           <div className="mt-4 lg:flex-1">
             <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
@@ -111,7 +121,9 @@ function Home() {
         <section className="min-w-0 bg-background">
           <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-border px-5 py-5 sm:px-8 lg:px-10 lg:py-7">
             <div className="min-w-0">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">Application studio</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                Application studio
+              </p>
               <h2 className="mt-1 truncate font-display text-xl font-semibold text-foreground sm:text-2xl">
                 Build your strongest application
               </h2>
@@ -122,10 +134,16 @@ function Home() {
             </div>
           </header>
 
-          <div className="animate-fade-in px-4 py-5 sm:px-8 sm:py-8 lg:px-10 lg:py-10" key={activeTab}>
+          <div
+            className="animate-fade-in px-4 py-5 sm:px-8 sm:py-8 lg:px-10 lg:py-10"
+            key={activeTab}
+          >
             {activeTab === "profile" && <ProfileTab onNext={() => setActiveTab("jobs")} />}
             {activeTab === "jobs" && (
-              <AvailableJobsTab onBack={() => setActiveTab("profile")} onNext={() => setActiveTab("jd")} />
+              <AvailableJobsTab
+                onBack={() => setActiveTab("profile")}
+                onNext={() => setActiveTab("jd")}
+              />
             )}
             {activeTab === "jd" && (
               <JDTab onBack={() => setActiveTab("jobs")} onNext={() => setActiveTab("resume")} />
