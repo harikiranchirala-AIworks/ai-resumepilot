@@ -89,7 +89,7 @@ function Home() {
           <div className="flex items-center gap-3">
             <img
               src={logoAsset.url}
-              alt="ATS Resume Ready"
+              alt="ATS Resume Ready logo"
               className="h-11 w-11 shrink-0 rounded-2xl object-cover shadow-logo"
               width={44}
               height={44}

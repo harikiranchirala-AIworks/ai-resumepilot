@@ -8,7 +8,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { Button } from "@/components/ui/button";
 
 function ShareNotFound() {
-  return <div className="min-h-screen bg-background"><SiteHeader /><main className="mx-auto flex max-w-xl flex-col items-center px-5 py-28 text-center"><h1 className="font-display text-3xl font-semibold text-foreground">This feedback link is unavailable.</h1><p className="mt-3 text-muted-foreground">It may have expired or the address may be incomplete.</p><Button asChild className="mt-7"><Link to="/">Visit ATS Resume Ready</Link></Button></main><SiteFooter /></div>;
+  return <div className="min-h-screen bg-background"><SiteHeader /><main className="mx-auto flex max-w-xl flex-col items-center px-5 py-28 text-center"><h1 className="font-display text-3xl font-semibold text-foreground">This feedback link is unavailable.</h1><p className="mt-3 text-muted-foreground">It may have expired or the address may be incomplete.</p><Button asChild className="mt-7"><Link to="/">Back to ATS Resume Ready home</Link></Button></main><SiteFooter /></div>;
 }
 
 export const Route = createFileRoute("/share/$shareId")({
