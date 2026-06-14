@@ -57,3 +57,56 @@ Structure: Header (centered name + contacts) → Professional Summary → Experi
 Reply with ONLY valid JSON matching this shape (no markdown fences, no commentary):
 ${TAILOR_JSON_SCHEMA}`;
 }
+
+export const INTERVIEW_PREP_JSON_SCHEMA = `{
+  "behavioralQuestions": [
+    {
+      "question": "...",
+      "suggestedAnswer": "A STAR-method answer grounded in the candidate's real experience.",
+      "whyAsked": "What the interviewer is looking for."
+    }
+  ],
+  "technicalQuestions": [
+    {
+      "question": "...",
+      "suggestedAnswer": "How to approach this based on the candidate's stated skills.",
+      "whyAsked": "..."
+    }
+  ],
+  "companyInsights": ["Specific insights about the role/company from the JD"],
+  "preparationStrategy": ["3-5 actionable steps for this specific candidate"]
+}`;
+
+export function buildInterviewPrepPrompt(
+  profileText: string,
+  jobDescription: string,
+  matchData: any
+): string {
+  return `You are an expert interview coach. 
+Based on the candidate's profile, the job description, and the match analysis provided, generate a comprehensive interview preparation guide.
+
+Candidate Profile:
+---
+${profileText}
+---
+
+Job Description:
+---
+${jobDescription}
+---
+
+Match Analysis:
+---
+${JSON.stringify(matchData, null, 2)}
+---
+
+Instructions:
+1. Provide 3-5 behavioral questions tailored to the gaps or strengths identified in the match analysis.
+2. Provide 3-5 technical or role-specific questions based on the JD and candidate's skills.
+3. Every "suggestedAnswer" MUST be grounded in the candidate's REAL experience from their profile. Do not invent achievements.
+4. "companyInsights" should infer company values or team needs from the JD tone and requirements.
+5. "preparationStrategy" should give the candidate specific advice on what to emphasize based on their profile vs this JD.
+
+Reply with ONLY valid JSON matching this shape:
+${INTERVIEW_PREP_JSON_SCHEMA}`;
+}

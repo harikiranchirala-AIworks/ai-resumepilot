@@ -75,6 +75,19 @@ export interface GeneratedResume {
   tailoredHighlights: string[];
 }
 
+export interface InterviewQuestion {
+  question: string;
+  suggestedAnswer: string;
+  whyAsked: string;
+}
+
+export interface InterviewPrep {
+  behavioralQuestions: InterviewQuestion[];
+  technicalQuestions: InterviewQuestion[];
+  companyInsights: string[];
+  preparationStrategy: string[];
+}
+
 export interface GenerateResult {
   resume: GeneratedResume;
   match: MatchAnalysis;
