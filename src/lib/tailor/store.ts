@@ -5,6 +5,8 @@ import type {
   ParsedProfile,
   ProfileInputMode,
   ProfileState,
+  InterviewPrep,
+  InterviewQuestion,
   SelectedJob,
 } from "./types";
 
