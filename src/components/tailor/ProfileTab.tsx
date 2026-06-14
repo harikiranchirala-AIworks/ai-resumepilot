@@ -6,11 +6,7 @@ import { Loader2, Sparkles, Plus, X, Pencil, RotateCcw } from "lucide-react";
 import { useAppStore, canProceedFromProfile } from "@/lib/tailor/store";
 import { parseResume } from "@/lib/tailor/parse-resume.functions";
 import { trackFunnelEvent } from "@/lib/analytics";
-import type {
-  ParsedEducation,
-  ParsedExperience,
-  ParsedProject,
-} from "@/lib/tailor/types";
+import type { ParsedEducation, ParsedExperience, ParsedProject } from "@/lib/tailor/types";
 import { TabActions } from "./TabActions";
 
 interface ProfileTabProps {
@@ -55,8 +51,8 @@ export function ProfileTab({ onNext }: ProfileTabProps) {
           </p>
           <h2 className="text-xl font-bold text-brand-900">Your Profile</h2>
           <p className="mt-1 text-sm text-slate-600">
-            Paste your resume, then let AI parse it into clean, editable fields so every
-            downstream step gets accurate data.
+            Paste your resume, then let AI parse it into clean, editable fields so every downstream
+            step gets accurate data.
           </p>
         </div>
 
@@ -79,9 +75,7 @@ export function ProfileTab({ onNext }: ProfileTabProps) {
             <p className="mt-1.5 text-xs text-slate-500">
               {profile.resumeText.length} characters
               {profile.resumeText.length > 0 && profile.resumeText.length < 200 && (
-                <span className="text-amber-600">
-                  {" "}— aim for 800+ chars for accurate parsing
-                </span>
+                <span className="text-amber-600"> — aim for 800+ chars for accurate parsing</span>
               )}
             </p>
           </div>
@@ -129,12 +123,7 @@ export function ProfileTab({ onNext }: ProfileTabProps) {
           </p>
         )}
 
-        {parsed && (
-          <ParsedEditor
-            parsed={parsed}
-            onPatch={updateParsed}
-          />
-        )}
+        {parsed && <ParsedEditor parsed={parsed} onPatch={updateParsed} />}
 
         <TabActions onNext={onNext} nextDisabled={!canNext} nextLabel="Find jobs" />
       </div>
@@ -163,7 +152,11 @@ function ParsedEditor({
       {/* Contact */}
       <div className="grid sm:grid-cols-2 gap-3">
         <Field label="Name" value={parsed.name} onChange={(v) => onPatch({ name: v })} />
-        <Field label="Headline" value={parsed.headline} onChange={(v) => onPatch({ headline: v })} />
+        <Field
+          label="Headline"
+          value={parsed.headline}
+          onChange={(v) => onPatch({ headline: v })}
+        />
         <Field label="Email" value={parsed.email} onChange={(v) => onPatch({ email: v })} />
         <Field label="Phone" value={parsed.phone} onChange={(v) => onPatch({ phone: v })} />
         <Field
@@ -210,9 +203,7 @@ function ParsedEditor({
         items={parsed.experience}
         onChange={(items) => onPatch({ experience: items })}
         empty={{ company: "", title: "", dates: "", location: "", bullets: [] }}
-        renderItem={(exp, update) => (
-          <ExperienceEditor exp={exp} update={update} />
-        )}
+        renderItem={(exp, update) => <ExperienceEditor exp={exp} update={update} />}
       />
 
       {/* Education */}
@@ -362,10 +353,7 @@ function ListSection<T>({
       </div>
       <div className="space-y-3">
         {items.map((it, i) => (
-          <div
-            key={i}
-            className="relative rounded-xl border border-brand-100 bg-brand-50/40 p-3"
-          >
+          <div key={i} className="relative rounded-xl border border-brand-100 bg-brand-50/40 p-3">
             <button
               type="button"
               onClick={() => removeAt(i)}
@@ -377,9 +365,7 @@ function ListSection<T>({
             {renderItem(it, (patch) => updateAt(i, patch))}
           </div>
         ))}
-        {items.length === 0 && (
-          <p className="text-xs text-slate-400 italic">None added yet</p>
-        )}
+        {items.length === 0 && <p className="text-xs text-slate-400 italic">None added yet</p>}
       </div>
     </div>
   );
@@ -414,7 +400,10 @@ function ExperienceEditor({
           value={exp.bullets.join("\n")}
           onChange={(e) =>
             update({
-              bullets: e.target.value.split("\n").map((l) => l.trim()).filter(Boolean),
+              bullets: e.target.value
+                .split("\n")
+                .map((l) => l.trim())
+                .filter(Boolean),
             })
           }
         />

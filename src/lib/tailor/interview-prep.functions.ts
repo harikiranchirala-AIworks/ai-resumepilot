@@ -12,12 +12,16 @@ const InputSchema = z.object({
 });
 
 const OutputSchema = z.object({
-  questions: z.array(z.object({
-    question: z.string().min(1).max(1000),
-    whyAsked: z.string().min(1).max(1000),
-    answerPlan: z.array(z.string().min(1).max(500)).min(2).max(5),
-    evidence: z.string().min(1).max(1000),
-  })).length(10),
+  questions: z
+    .array(
+      z.object({
+        question: z.string().min(1).max(1000),
+        whyAsked: z.string().min(1).max(1000),
+        answerPlan: z.array(z.string().min(1).max(500)).min(2).max(5),
+        evidence: z.string().min(1).max(1000),
+      }),
+    )
+    .length(10),
 });
 
 export type InterviewPrep = z.infer<typeof OutputSchema>;
