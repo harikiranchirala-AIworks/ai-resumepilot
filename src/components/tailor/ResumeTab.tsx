@@ -13,10 +13,11 @@ import { createResumeShare } from "@/lib/tailor/share.functions";
 import { Button } from "@/components/ui/button";
 
 interface ResumeTabProps {
+  onNext?: () => void;
   onBack: () => void;
 }
 
-export function ResumeTab({ onBack }: ResumeTabProps) {
+export function ResumeTab({ onBack, onNext }: ResumeTabProps) {
   const [coverLetter, setCoverLetter] = useState("");
   const [isGeneratingLetter, setIsGeneratingLetter] = useState(false);
   const [coverLetterError, setCoverLetterError] = useState<string | null>(null);
@@ -141,7 +142,13 @@ export function ResumeTab({ onBack }: ResumeTabProps) {
           {isGenerating ? "Generating…" : "Generate Resume"}
         </button>
 
-        <TabActions showBack onBack={onBack} />
+        <TabActions 
+          showBack 
+          onBack={onBack} 
+          showNext={!!result && !!onNext} 
+          onNext={onNext} 
+          nextLabel="Prepare for Interview" 
+        />
 
         {!ready && (
           <p className="mt-4 text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">

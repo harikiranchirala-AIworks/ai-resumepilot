@@ -5,6 +5,7 @@ import { TabNavigation, type TabId } from "@/components/tailor/TabNavigation";
 import { ProfileTab } from "@/components/tailor/ProfileTab";
 import { JDTab } from "@/components/tailor/JDTab";
 import { ResumeTab } from "@/components/tailor/ResumeTab";
+import { InterviewTab } from "@/components/tailor/InterviewTab";
 import { AvailableJobsTab } from "@/components/tailor/AvailableJobsTab";
 import logoAsset from "@/assets/ats-resume-ready-logo.png.asset.json";
 import { ThemeToggle } from "@/components/ThemeToggle";
