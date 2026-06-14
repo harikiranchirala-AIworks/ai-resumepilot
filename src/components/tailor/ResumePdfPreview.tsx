@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Download, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { downloadResumeDocx, downloadResumePdf } from "@/lib/tailor/resume-export.client";
+import { downloadResumeDocx, downloadResumePdf } from "@/lib/tailor/resume-export";
 
 type PreviewMode = "formatted" | "source";
 
