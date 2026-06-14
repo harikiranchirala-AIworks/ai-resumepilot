@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import logoAsset from "@/assets/ats-resume-ready-logo.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { trackFunnelEvent } from "@/lib/analytics";
 
 export function SiteHeader() {
   return (
@@ -37,8 +38,8 @@ export function SiteHeader() {
         <div className="flex items-center gap-1.5">
           <ThemeToggle />
           <Button asChild size="sm">
-            <Link to="/workspace">
-              Open workspace <ArrowRight />
+            <Link to="/workspace" onClick={() => trackFunnelEvent("homepage_to_workspace")}>
+              Check my resume match <ArrowRight />
             </Link>
           </Button>
         </div>

@@ -11,6 +11,7 @@ import { TabActions } from "./TabActions";
 import { ResumePdfPreview } from "./ResumePdfPreview";
 import { createResumeShare } from "@/lib/tailor/share.functions";
 import { Button } from "@/components/ui/button";
+import { trackFunnelEvent } from "@/lib/analytics";
 
 interface ResumeTabProps {
   onNext?: () => void;
@@ -55,6 +56,7 @@ export function ResumeTab({ onBack, onNext }: ResumeTabProps) {
         },
       });
       setResult(data);
+      trackFunnelEvent("resume_generated");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
@@ -75,7 +77,9 @@ export function ResumeTab({ onBack, onNext }: ResumeTabProps) {
       });
       setCoverLetter(data.coverLetter);
     } catch (err) {
-      setCoverLetterError(err instanceof Error ? err.message : "Could not generate the cover letter");
+      setCoverLetterError(
+        err instanceof Error ? err.message : "Could not generate the cover letter",
+      );
     } finally {
       setIsGeneratingLetter(false);
     }
@@ -142,11 +146,11 @@ export function ResumeTab({ onBack, onNext }: ResumeTabProps) {
           {isGenerating ? "Generating…" : "Generate Resume"}
         </button>
 
-        <TabActions 
-          showBack 
-          onBack={onBack} 
-          onNext={result ? onNext : undefined} 
-          nextLabel="Prepare for Interview" 
+        <TabActions
+          showBack
+          onBack={onBack}
+          onNext={result ? onNext : undefined}
+          nextLabel="Prepare for Interview"
         />
 
         {!ready && (
@@ -154,9 +158,6 @@ export function ResumeTab({ onBack, onNext }: ResumeTabProps) {
             Complete Profile and Job Description with at least 50 characters each.
           </p>
         )}
-
-
-
 
         {error && (
           <p className="mt-4 text-sm text-rose-800 bg-rose-50 border border-rose-200 rounded-xl px-4 py-3">
@@ -169,18 +170,40 @@ export function ResumeTab({ onBack, onNext }: ResumeTabProps) {
         <>
           <div className="flex flex-col gap-3 rounded-2xl border border-border bg-muted/40 p-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-sm font-semibold text-foreground">Invite feedback on this application</p>
+              <p className="text-sm font-semibold text-foreground">
+                Invite feedback on this application
+              </p>
               <p className="mt-1 text-xs text-muted-foreground">
-                {selectedJob ? "Creates a 90-day link with the selected job and tailored preview only." : "Select a job from Available Jobs to enable a shareable mentor link."}
+                {selectedJob
+                  ? "Creates a 90-day link with the selected job and tailored preview only."
+                  : "Select a job from Available Jobs to enable a shareable mentor link."}
               </p>
             </div>
-            <Button type="button" variant="outline" onClick={handleShare} disabled={!selectedJob || isSharing}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleShare}
+              disabled={!selectedJob || isSharing}
+            >
               {shareUrl ? <Check /> : <Share2 />}
               {isSharing ? "Creating…" : shareUrl ? "Link copied" : "Share for feedback"}
             </Button>
-            {shareUrl && <Button type="button" variant="ghost" size="sm" onClick={() => navigator.clipboard.writeText(shareUrl)}><Copy /> Copy again</Button>}
+            {shareUrl && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => navigator.clipboard.writeText(shareUrl)}
+              >
+                <Copy /> Copy again
+              </Button>
+            )}
           </div>
-          {shareError && <p className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">{shareError}</p>}
+          {shareError && (
+            <p className="rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+              {shareError}
+            </p>
+          )}
           <div className="card">
             <h3 className="text-sm font-bold text-brand-900 mb-4">
               Profile ↔ Job Description Match

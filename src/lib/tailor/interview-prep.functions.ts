@@ -12,12 +12,16 @@ const InputSchema = z.object({
 });
 
 const OutputSchema = z.object({
-  questions: z.array(z.object({
-    question: z.string().min(1).max(1000),
-    whyAsked: z.string().min(1).max(1000),
-    answerPlan: z.array(z.string().min(1).max(500)).min(2).max(5),
-    evidence: z.string().min(1).max(1000),
-  })).min(5).max(10),
+  questions: z
+    .array(
+      z.object({
+        question: z.string().min(1).max(1000),
+        whyAsked: z.string().min(1).max(1000),
+        answerPlan: z.array(z.string().min(1).max(500)).min(2).max(5),
+        evidence: z.string().min(1).max(1000),
+      }),
+    )
+    .length(10),
 });
 
 export type InterviewPrep = z.infer<typeof OutputSchema>;
@@ -25,7 +29,7 @@ export type InterviewPrep = z.infer<typeof OutputSchema>;
 const SYSTEM_PROMPT = `You are an expert interview coach. Create likely interview questions and practical answer plans grounded only in the supplied candidate profile and job description.
 Rules:
 - Never invent candidate experience, achievements, skills, or metrics
-- Include a balanced mix of role-specific, behavioral, and gap-handling questions
+- Return exactly 10 questions: 5 technical or role-specific questions and 5 non-technical questions covering behavioral, situational, communication, and honest gap-handling topics
 - Use matched keywords to identify strengths the interviewer may probe
 - Use missing keywords to prepare honest gap responses, never to imply experience the candidate lacks
 - For evidence, cite the most relevant real experience from the profile or explicitly say "No direct evidence—answer honestly and connect adjacent experience"
