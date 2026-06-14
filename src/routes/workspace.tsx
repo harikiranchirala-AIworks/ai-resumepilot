@@ -136,7 +136,11 @@ function Home() {
                 Private workspace
               </div>
               <ThemeToggle />
-              <Link to="/" className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground" aria-label="Back to home">
+              <Link
+                to="/"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                aria-label="Back to home"
+              >
                 <HomeIcon className="h-4 w-4" />
               </Link>
             </div>
@@ -162,9 +166,7 @@ function Home() {
                 onNext={() => setActiveTab("interview")}
               />
             )}
-            {activeTab === "interview" && (
-              <InterviewTab onBack={() => setActiveTab("resume")} />
-            )}
+            {activeTab === "interview" && <InterviewTab onBack={() => setActiveTab("resume")} />}
 
             <footer className="pb-2 pt-8 text-center text-xs text-muted-foreground">
               Review generated content before submitting. Never misrepresent your qualifications.
