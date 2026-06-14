@@ -3,6 +3,7 @@ import { ArrowRight, BriefcaseBusiness, FileCheck2, Search, ShieldCheck, Sparkle
 import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { trackFunnelEvent } from "@/lib/analytics";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -25,6 +26,8 @@ const steps = [
 ];
 
 function LandingPage() {
+  const trackWorkspaceClick = () => trackFunnelEvent("homepage_to_workspace");
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
@@ -36,7 +39,7 @@ function LandingPage() {
               <h1 className="max-w-3xl font-display text-5xl font-semibold leading-[1.06] tracking-[-0.04em] text-foreground sm:text-6xl">A stronger application, without rewriting who you are.</h1>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">ATS Resume Ready connects job discovery, fit analysis, resume tailoring, and mentor feedback in one calm workspace.</p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Button asChild size="lg"><Link to="/workspace">Start tailoring <ArrowRight /></Link></Button>
+                <Button asChild size="lg"><Link to="/workspace" onClick={trackWorkspaceClick}>Check my resume match <ArrowRight /></Link></Button>
                 <Button asChild size="lg" variant="outline"><Link to="/how-it-works">See how it works</Link></Button>
               </div>
               <p className="mt-5 text-xs font-medium text-muted-foreground">No invented qualifications. Reviewable output. You stay in control.</p>
@@ -68,7 +71,29 @@ function LandingPage() {
           </div>
         </section>
 
-        <section className="border-y border-border bg-primary text-primary-foreground"><div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 py-14 sm:flex-row sm:items-center sm:justify-between lg:px-8"><div><p className="text-xs font-bold uppercase tracking-[0.2em]">Your next application</p><h2 className="mt-2 font-display text-3xl font-semibold">Make it specific. Keep it truthful.</h2></div><Button asChild size="lg" variant="secondary"><Link to="/workspace">Open ATS Resume Ready <ArrowRight /></Link></Button></div></section>
+        <section className="border-y border-border bg-muted/35">
+          <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
+            <div className="max-w-2xl">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">See the difference</p>
+              <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-4xl">Same experience. Sharper evidence.</h2>
+              <p className="mt-3 text-muted-foreground">Tailoring makes existing work relevant to the role—it does not invent new accomplishments.</p>
+            </div>
+            <div className="mt-10 grid overflow-hidden rounded-3xl border border-border bg-border md:grid-cols-2 md:gap-px">
+              <article className="bg-background p-7">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground">Before · Generic bullet</p>
+                <p className="mt-6 font-display text-xl font-semibold leading-relaxed">“Worked with teams to improve the product and handle customer feedback.”</p>
+                <p className="mt-5 text-sm text-muted-foreground">Accurate, but vague about ownership, process, and skills relevant to a product role.</p>
+              </article>
+              <article className="border-t border-border bg-background p-7 md:border-l-0 md:border-t-0">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">After · Tailored bullet</p>
+                <p className="mt-6 font-display text-xl font-semibold leading-relaxed">“Partnered with design and engineering to prioritize customer feedback and translate recurring needs into product improvements.”</p>
+                <p className="mt-5 text-sm text-muted-foreground">The same truthful experience now highlights cross-functional collaboration, prioritization, and customer insight.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-primary text-primary-foreground"><div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 py-14 sm:flex-row sm:items-center sm:justify-between lg:px-8"><div><p className="text-xs font-bold uppercase tracking-[0.2em]">Your next application</p><h2 className="mt-2 font-display text-3xl font-semibold">Make it specific. Keep it truthful.</h2></div><Button asChild size="lg" variant="secondary"><Link to="/workspace" onClick={trackWorkspaceClick}>Check my resume match <ArrowRight /></Link></Button></div></section>
       </main>
       <SiteFooter />
     </div>

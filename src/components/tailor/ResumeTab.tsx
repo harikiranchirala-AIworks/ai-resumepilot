@@ -11,6 +11,7 @@ import { TabActions } from "./TabActions";
 import { ResumePdfPreview } from "./ResumePdfPreview";
 import { createResumeShare } from "@/lib/tailor/share.functions";
 import { Button } from "@/components/ui/button";
+import { trackFunnelEvent } from "@/lib/analytics";
 
 interface ResumeTabProps {
   onNext?: () => void;
@@ -55,6 +56,7 @@ export function ResumeTab({ onBack, onNext }: ResumeTabProps) {
         },
       });
       setResult(data);
+      trackFunnelEvent("resume_generated");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {

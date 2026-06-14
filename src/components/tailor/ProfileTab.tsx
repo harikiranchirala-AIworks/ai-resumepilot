@@ -5,6 +5,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { Loader2, Sparkles, Plus, X, Pencil, RotateCcw } from "lucide-react";
 import { useAppStore, canProceedFromProfile } from "@/lib/tailor/store";
 import { parseResume } from "@/lib/tailor/parse-resume.functions";
+import { trackFunnelEvent } from "@/lib/analytics";
 import type {
   ParsedEducation,
   ParsedExperience,
@@ -37,6 +38,7 @@ export function ProfileTab({ onNext }: ProfileTabProps) {
     try {
       const result = await parseFn({ data: { resumeText: profile.resumeText } });
       setParsed(result);
+      trackFunnelEvent("resume_parsed");
     } catch (e) {
       setParseError(e instanceof Error ? e.message : "Couldn't parse resume");
     } finally {

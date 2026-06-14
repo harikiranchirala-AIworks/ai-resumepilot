@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Home as HomeIcon, ShieldCheck, Sparkles } from "lucide-react";
 import { TabNavigation, type TabId } from "@/components/tailor/TabNavigation";
 import { ProfileTab } from "@/components/tailor/ProfileTab";
@@ -9,6 +9,7 @@ import { InterviewTab } from "@/components/tailor/InterviewTab";
 import { AvailableJobsTab } from "@/components/tailor/AvailableJobsTab";
 import logoAsset from "@/assets/ats-resume-ready-logo.png.asset.json";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { trackFunnelEvent } from "@/lib/analytics";
 
 export const Route = createFileRoute("/workspace")({
   head: () => ({
@@ -81,6 +82,10 @@ export const Route = createFileRoute("/workspace")({
 
 function Home() {
   const [activeTab, setActiveTab] = useState<TabId>("profile");
+
+  useEffect(() => {
+    trackFunnelEvent("workspace_viewed");
+  }, []);
 
   return (
     <main className="min-h-screen bg-page-gradient p-3 sm:p-5 lg:p-8">
