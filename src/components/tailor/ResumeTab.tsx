@@ -145,8 +145,7 @@ export function ResumeTab({ onBack, onNext }: ResumeTabProps) {
         <TabActions 
           showBack 
           onBack={onBack} 
-          showNext={!!result && !!onNext} 
-          onNext={onNext} 
+          onNext={result ? onNext : undefined} 
           nextLabel="Prepare for Interview" 
         />
 

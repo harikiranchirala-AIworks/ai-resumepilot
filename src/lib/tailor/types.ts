@@ -77,15 +77,13 @@ export interface GeneratedResume {
 
 export interface InterviewQuestion {
   question: string;
-  suggestedAnswer: string;
   whyAsked: string;
+  answerPlan: string[];
+  evidence: string;
 }
 
 export interface InterviewPrep {
-  behavioralQuestions: InterviewQuestion[];
-  technicalQuestions: InterviewQuestion[];
-  companyInsights: string[];
-  preparationStrategy: string[];
+  questions: InterviewQuestion[];
 }
 
 export interface GenerateResult {

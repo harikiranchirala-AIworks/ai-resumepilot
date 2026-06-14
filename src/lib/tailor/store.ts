@@ -6,7 +6,6 @@ import type {
   ProfileInputMode,
   ProfileState,
   InterviewPrep,
-  InterviewQuestion,
   SelectedJob,
 } from "./types";
 
