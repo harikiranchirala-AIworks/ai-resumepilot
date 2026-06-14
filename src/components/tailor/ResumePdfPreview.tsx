@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Download, FileText } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { downloadResumeDocx, downloadResumePdf } from "@/lib/tailor/resume-export";
 
 type PreviewMode = "formatted" | "source";
 
@@ -187,15 +190,15 @@ export function ResumePdfPreview({
           )}
         </div>
         <div className="flex flex-wrap gap-2 shrink-0">
-          <button
-            type="button"
-            className="btn-secondary text-xs"
-            onClick={() =>
-              downloadFile(latex, "tailored-resume.tex", "application/x-tex")
-            }
-          >
+          <Button type="button" size="sm" onClick={() => void downloadResumePdf(latex)}>
+            <Download /> Download PDF
+          </Button>
+          <Button type="button" size="sm" variant="outline" onClick={() => void downloadResumeDocx(latex)}>
+            <FileText /> Download .docx
+          </Button>
+          <Button type="button" size="sm" variant="ghost" onClick={() => downloadFile(latex, "tailored-resume.tex", "application/x-tex")}>
             Download .tex
-          </button>
+          </Button>
         </div>
       </div>
 

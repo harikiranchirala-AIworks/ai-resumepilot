@@ -5,6 +5,7 @@ import type {
   ParsedProfile,
   ProfileInputMode,
   ProfileState,
+  InterviewPrep,
   SelectedJob,
 } from "./types";
 
@@ -12,6 +13,8 @@ interface AppStore {
   profile: ProfileState;
   jd: JDState;
   result: GenerateResult | null;
+  interviewPrep: InterviewPrep | null;
+  isGeneratingInterview: boolean;
   selectedJob: SelectedJob | null;
   isGenerating: boolean;
   error: string | null;
@@ -24,6 +27,8 @@ interface AppStore {
   setJobDescription: (text: string) => void;
   setSelectedJob: (job: SelectedJob | null) => void;
   setResult: (result: GenerateResult | null) => void;
+  setInterviewPrep: (prep: InterviewPrep | null) => void;
+  setIsGeneratingInterview: (value: boolean) => void;
   setIsGenerating: (value: boolean) => void;
   setError: (error: string | null) => void;
 }
@@ -39,6 +44,8 @@ export const useAppStore = create<AppStore>((set) => ({
     jobDescription: "",
   },
   result: null,
+  interviewPrep: null,
+  isGeneratingInterview: false,
   selectedJob: null,
   isGenerating: false,
   error: null,
@@ -47,12 +54,16 @@ export const useAppStore = create<AppStore>((set) => ({
     set((state) => ({
       profile: { ...state.profile, mode },
       result: null,
+  interviewPrep: null,
+  isGeneratingInterview: false,
       error: null,
     })),
   setProfileId: (profileId) =>
     set((state) => ({
       profile: { ...state.profile, profileId },
       result: null,
+  interviewPrep: null,
+  isGeneratingInterview: false,
       error: null,
     })),
   setResumeText: (resumeText) =>
@@ -60,12 +71,16 @@ export const useAppStore = create<AppStore>((set) => ({
       // Editing raw resume invalidates the parsed structure
       profile: { ...state.profile, resumeText, parsed: null },
       result: null,
+  interviewPrep: null,
+  isGeneratingInterview: false,
       error: null,
     })),
   setParsed: (parsed) =>
     set((state) => ({
       profile: { ...state.profile, parsed },
       result: null,
+  interviewPrep: null,
+  isGeneratingInterview: false,
       error: null,
     })),
   updateParsed: (patch) =>
@@ -77,15 +92,21 @@ export const useAppStore = create<AppStore>((set) => ({
           : state.profile.parsed,
       },
       result: null,
+  interviewPrep: null,
+  isGeneratingInterview: false,
       error: null,
     })),
   setJobDescription: (jobDescription) =>
     set((state) => ({
       jd: { jobDescription },
       result: null,
+  interviewPrep: null,
+  isGeneratingInterview: false,
       error: null,
     })),
   setSelectedJob: (selectedJob) => set({ selectedJob }),
+  setInterviewPrep: (interviewPrep) => set({ interviewPrep }),
+  setIsGeneratingInterview: (isGeneratingInterview) => set({ isGeneratingInterview }),
   setResult: (result) => set({ result }),
   setIsGenerating: (isGenerating) => set({ isGenerating }),
   setError: (error) => set({ error }),

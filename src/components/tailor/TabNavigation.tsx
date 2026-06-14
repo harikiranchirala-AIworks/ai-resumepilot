@@ -1,12 +1,13 @@
 "use client";
 
-export type TabId = "profile" | "jobs" | "jd" | "resume";
+export type TabId = "profile" | "jobs" | "jd" | "resume" | "interview";
 
 const TABS: { id: TabId; label: string; step: number }[] = [
   { id: "profile", label: "Profile", step: 1 },
   { id: "jobs", label: "Available Jobs", step: 2 },
   { id: "jd", label: "Job Description", step: 3 },
   { id: "resume", label: "Resume", step: 4 },
+  { id: "interview", label: "Interview Prep", step: 5 },
 ];
 
 interface TabNavigationProps {
@@ -18,7 +19,7 @@ export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
   const activeIndex = TABS.findIndex((t) => t.id === activeTab);
 
   return (
-    <nav aria-label="Resume tailoring steps" className="grid grid-cols-4 gap-1 rounded-2xl bg-sidebar-accent/50 p-1 lg:grid-cols-1 lg:gap-2 lg:bg-transparent lg:p-0">
+    <nav aria-label="Resume tailoring steps" className="grid grid-cols-5 gap-1 rounded-2xl bg-sidebar-accent/50 p-1 lg:grid-cols-1 lg:gap-2 lg:bg-transparent lg:p-0">
       {TABS.map((tab, index) => {
         const isActive = activeTab === tab.id;
         const isDone = index < activeIndex;
