@@ -35,6 +35,11 @@ export const Route = createFileRoute("/sitemap.xml")({
           "    <changefreq>monthly</changefreq>",
           "    <priority>0.8</priority>",
           "  </url>",
+          "  <url>",
+          `    <loc>${BASE_URL}/blog/resume-power-verbs-synonyms</loc>`,
+          "    <changefreq>monthly</changefreq>",
+          "    <priority>0.8</priority>",
+          "  </url>",
           "</urlset>",
         ].join("\n");
 

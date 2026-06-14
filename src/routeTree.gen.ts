@@ -15,6 +15,7 @@ import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShareShareIdRouteImport } from './routes/share.$shareId'
+import { Route as BlogResumePowerVerbsSynonymsRouteImport } from './routes/blog_.resume-power-verbs-synonyms'
 import { Route as BlogCanAiTailorMyResumeRouteImport } from './routes/blog_.can-ai-tailor-my-resume'
 
 const WorkspaceRoute = WorkspaceRouteImport.update({
@@ -47,6 +48,12 @@ const ShareShareIdRoute = ShareShareIdRouteImport.update({
   path: '/share/$shareId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogResumePowerVerbsSynonymsRoute =
+  BlogResumePowerVerbsSynonymsRouteImport.update({
+    id: '/blog_/resume-power-verbs-synonyms',
+    path: '/blog/resume-power-verbs-synonyms',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const BlogCanAiTailorMyResumeRoute = BlogCanAiTailorMyResumeRouteImport.update({
   id: '/blog_/can-ai-tailor-my-resume',
   path: '/blog/can-ai-tailor-my-resume',
@@ -60,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/workspace': typeof WorkspaceRoute
   '/blog/can-ai-tailor-my-resume': typeof BlogCanAiTailorMyResumeRoute
+  '/blog/resume-power-verbs-synonyms': typeof BlogResumePowerVerbsSynonymsRoute
   '/share/$shareId': typeof ShareShareIdRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +77,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/workspace': typeof WorkspaceRoute
   '/blog/can-ai-tailor-my-resume': typeof BlogCanAiTailorMyResumeRoute
+  '/blog/resume-power-verbs-synonyms': typeof BlogResumePowerVerbsSynonymsRoute
   '/share/$shareId': typeof ShareShareIdRoute
 }
 export interface FileRoutesById {
@@ -79,6 +88,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/workspace': typeof WorkspaceRoute
   '/blog_/can-ai-tailor-my-resume': typeof BlogCanAiTailorMyResumeRoute
+  '/blog_/resume-power-verbs-synonyms': typeof BlogResumePowerVerbsSynonymsRoute
   '/share/$shareId': typeof ShareShareIdRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +100,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/workspace'
     | '/blog/can-ai-tailor-my-resume'
+    | '/blog/resume-power-verbs-synonyms'
     | '/share/$shareId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +110,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/workspace'
     | '/blog/can-ai-tailor-my-resume'
+    | '/blog/resume-power-verbs-synonyms'
     | '/share/$shareId'
   id:
     | '__root__'
@@ -108,6 +120,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/workspace'
     | '/blog_/can-ai-tailor-my-resume'
+    | '/blog_/resume-power-verbs-synonyms'
     | '/share/$shareId'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +131,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   WorkspaceRoute: typeof WorkspaceRoute
   BlogCanAiTailorMyResumeRoute: typeof BlogCanAiTailorMyResumeRoute
+  BlogResumePowerVerbsSynonymsRoute: typeof BlogResumePowerVerbsSynonymsRoute
   ShareShareIdRoute: typeof ShareShareIdRoute
 }
 
@@ -165,6 +179,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShareShareIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog_/resume-power-verbs-synonyms': {
+      id: '/blog_/resume-power-verbs-synonyms'
+      path: '/blog/resume-power-verbs-synonyms'
+      fullPath: '/blog/resume-power-verbs-synonyms'
+      preLoaderRoute: typeof BlogResumePowerVerbsSynonymsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog_/can-ai-tailor-my-resume': {
       id: '/blog_/can-ai-tailor-my-resume'
       path: '/blog/can-ai-tailor-my-resume'
@@ -182,6 +203,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   WorkspaceRoute: WorkspaceRoute,
   BlogCanAiTailorMyResumeRoute: BlogCanAiTailorMyResumeRoute,
+  BlogResumePowerVerbsSynonymsRoute: BlogResumePowerVerbsSynonymsRoute,
   ShareShareIdRoute: ShareShareIdRoute,
 }
 export const routeTree = rootRouteImport

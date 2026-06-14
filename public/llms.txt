@@ -14,3 +14,4 @@ ATS Resume Ready helps candidates connect a target job with their real work hist
 ## Guides
 
 - [Can AI Tailor My Resume to a Job Posting?](/blog/can-ai-tailor-my-resume): A practical guide to using AI without misrepresenting skills or experience.
+- [Resume Power Verbs and Synonyms](/blog/resume-power-verbs-synonyms): Accurate alternatives to overused resume verbs, with examples for writing stronger evidence-based bullets.
